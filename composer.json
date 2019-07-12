@@ -1,0 +1,42 @@
+{
+    "name": "mpyw/laravel-mysql-system-variable-manager",
+    "description": "A tiny extension of MySqlConnection that manages session system variables",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mpyw",
+            "email": "ryosuke_i_628@yahoo.co.jp"
+        }
+    ],
+    "keywords": ["laravel", "illuminate", "mysql", "system", "variable"],
+    "autoload": {
+        "psr-4": {
+            "Mpyw\\LaravelMysqlSystemVariableManager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lampager\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "ext-pdo": "*",
+        "illuminate/support": "^5.6 || ^6.0 || ^7.0 || ^8.0",
+        "illuminate/database": "^5.6 || ^6.0 || ^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "laravel/framework": "^6.0",
+        "nilportugues/sql-query-formatter": "^1.2",
+        "friendsofphp/php-cs-fixer": "^2.15"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mpyw\\LaravelMysqlSystemVariableManager\\LaravelMysqlSystemVariableManagerServiceProvider"
+            ]
+        }
+    }
+}

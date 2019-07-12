@@ -1,0 +1,37 @@
+checks:
+  php:
+    code_rating: true
+
+filter:
+  excluded_paths:
+    - tests/*
+    - vendor/*
+
+build:
+
+  environment:
+    php: '7.3'
+    docker: true
+
+  dependencies:
+    before:
+      - sudo rm /usr/local/bin/docker-compose
+      - curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+      - chmod +x docker-compose
+      - sudo mv docker-compose /usr/local/bin
+      - curl https://bootstrap.pypa.io/get-pip.py | python
+      - pip install docker-compose-wait
+      - cp docker-compose-ci.yml docker-compose.yml
+      - export PHP_VERSION=$(php -r 'preg_match("/^((\d+)[.](\d+))[.](\d+)$/", PHP_VERSION, $m); echo $m[1];')
+      - docker-compose up -d
+      - composer install
+      - mkdir -p build/logs
+      - docker-compose-wait
+
+  tests:
+    override:
+      -
+        command: "docker-compose exec php sh -c 'cd /code; vendor/bin/phpunit --coverage-clover build/logs/clover.xml'"
+        coverage:
+          file: 'build/logs/clover.xml'
+          format: 'clover'

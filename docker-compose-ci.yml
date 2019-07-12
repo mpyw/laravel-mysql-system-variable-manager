@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  php:
+    image: circleci/php:${PHP_VERSION}
+    volumes:
+      - .:/code
+    environment:
+      - LARAVEL_VERSION
+      - PHPUNIT_VERSION
+      - TESTBENCH_VERSION
+    command:
+      sh -c '
+        chown -R myuser:myuser;
+        sudo docker-php-ext-install pdo_mysql;
+        cd /code;
+        tail -F /dev/null;
+      '
+    user: root
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: testing
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
