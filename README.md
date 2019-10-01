@@ -42,7 +42,7 @@ Use **`DB::connection()->disconnect()`** instead.
 
 ## Advanced Usage
 
-You can manually customize extended `MySqlConnection` using `ManagesSystemVariables` trait.
+You can extend `MySqlConnection` with `ManagesSystemVariables` trait by yourself.
 
 ```php
 <?php
