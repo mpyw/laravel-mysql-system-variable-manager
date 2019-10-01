@@ -12,12 +12,12 @@
     "keywords": ["laravel", "illuminate", "mysql", "system", "variable"],
     "autoload": {
         "psr-4": {
-            "Mpyw\\LaravelMysqlSystemVariableManager\\": "src/"
+            "Mpyw\\LaravelMySqlSystemVariableManager\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Lampager\\Laravel\\Tests\\": "tests/"
+            "Mpyw\\LaravelMySqlSystemVariableManager\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -31,12 +31,5 @@
         "laravel/framework": "^6.0",
         "nilportugues/sql-query-formatter": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Mpyw\\LaravelMysqlSystemVariableManager\\LaravelMysqlSystemVariableManagerServiceProvider"
-            ]
-        }
     }
 }

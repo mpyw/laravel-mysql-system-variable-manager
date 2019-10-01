@@ -13,9 +13,28 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 composer require mpyw/laravel-mysql-system-variable-manager
 ```
 
-The default implementation is provided by the automatically-discovered service provider.
-
 ## Basic Usage
+
+The default implementation is provided by `LaravelMySqlSystemVariableManagerServiceProvider`, however, **package discovery is not available**.
+Be careful that you MUST register it in **`config/app.php`** by yourself.
+
+```php
+<?php
+
+return [
+
+    /* ... */
+
+    'providers' => [
+        /* ... */
+
+        Mpyw\LaravelMySqlSystemVariableManager\LaravelMySqlSystemVariableManagerServiceProvider::class,
+
+        /* ... */
+    ],
+
+];
+```
 
 ```php
 <?php
@@ -70,7 +89,7 @@ class DatabaseServiceProvider extends ServiceProvider
 namespace App\Database;
 
 use Illuminate\Database\Connection as BaseMySqlConnection;
-use Mpyw\LaravelMysqlSystemVariableManager\ManagesSystemVariables;
+use Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables;
 
 class MySqlConnection extends BaseMySqlConnection
 {

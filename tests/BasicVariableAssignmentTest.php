@@ -1,8 +1,8 @@
 <?php
 
-namespace Lampager\Laravel\Tests;
+namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
-use Mpyw\LaravelMysqlSystemVariableManager\MySqlConnection;
+use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnection;
 use PDOException;
 
 class BasicVariableAssignmentTest extends TestCase
