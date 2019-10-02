@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpyw\LaravelMysqlSystemVariableManager;
+namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 /**
  * Trait ManagesSystemVariables

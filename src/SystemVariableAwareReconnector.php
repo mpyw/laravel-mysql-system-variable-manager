@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpyw\LaravelMysqlSystemVariableManager;
+namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 use Illuminate\Database\ConnectionInterface;
 use LogicException;
@@ -41,7 +41,7 @@ class SystemVariableAwareReconnector
     }
 
     /**
-     * @param  \Illuminate\Database\ConnectionInterface|\Mpyw\LaravelMysqlSystemVariableManager\ManagesSystemVariables $connection
+     * @param  \Illuminate\Database\ConnectionInterface|\Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables $connection
      * @return mixed
      */
     public function __invoke(ConnectionInterface $connection)

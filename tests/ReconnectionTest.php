@@ -1,9 +1,9 @@
 <?php
 
-namespace Lampager\Laravel\Tests;
+namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
 use Illuminate\Support\Facades\DB;
-use Mpyw\LaravelMysqlSystemVariableManager\MySqlConnection;
+use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnection;
 
 class ReconnectionTest extends TestCase
 {
