@@ -29,7 +29,6 @@
     "require-dev": {
         "orchestra/testbench": "^4.0",
         "laravel/framework": "^6.0",
-        "nilportugues/sql-query-formatter": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15"
     }
 }
