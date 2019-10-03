@@ -6,9 +6,9 @@ use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class LaravelMySqlSystemVariableManagerServiceProvider
+ * Class MySqlConnectionServiceProvider
  */
-class LaravelMySqlSystemVariableManagerServiceProvider extends ServiceProvider
+class MySqlConnectionServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {

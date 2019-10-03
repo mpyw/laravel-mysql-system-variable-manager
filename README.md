@@ -15,7 +15,7 @@ composer require mpyw/laravel-mysql-system-variable-manager
 
 ## Basic Usage
 
-The default implementation is provided by `LaravelMySqlSystemVariableManagerServiceProvider`, however, **package discovery is not available**.
+The default implementation is provided by `MySqlConnectionServiceProvider`, however, **package discovery is not available**.
 Be careful that you MUST register it in **`config/app.php`** by yourself.
 
 ```php
@@ -28,7 +28,7 @@ return [
     'providers' => [
         /* ... */
 
-        Mpyw\LaravelMySqlSystemVariableManager\LaravelMySqlSystemVariableManagerServiceProvider::class,
+        Mpyw\LaravelMySqlSystemVariableManager\MySqlConnectionServiceProvider::class,
 
         /* ... */
     ],

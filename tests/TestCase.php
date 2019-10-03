@@ -3,7 +3,7 @@
 namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
 use Illuminate\Support\Facades\DB;
-use Mpyw\LaravelMySqlSystemVariableManager\LaravelMySqlSystemVariableManagerServiceProvider;
+use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnectionServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use PDO;
 
@@ -41,7 +41,7 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            LaravelMySqlSystemVariableManagerServiceProvider::class,
+            MySqlConnectionServiceProvider::class,
         ];
     }
 
