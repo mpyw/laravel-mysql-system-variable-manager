@@ -5,7 +5,7 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 ## Requirements
 
 - PHP: ^7.1
-- Laravel: ^5.6 || ^6.0
+- Laravel: ^5.8 || ^6.0
 
 ## Installing
 
