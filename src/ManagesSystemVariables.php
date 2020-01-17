@@ -41,9 +41,7 @@ trait ManagesSystemVariables
      */
     public function setSystemVariables(array $values, bool $memoizeForReconnect = true)
     {
-        foreach (array_filter([&$this->pdo, &$this->readPdo]) as &$pdo) {
-            $pdo = PdoDecorator::withSystemVariables($pdo, $values);
-        }
+        (new SystemVariableAssigner($this->readPdo, $this->pdo))->assign($values);
 
         if (!$this->reconnector instanceof SystemVariableAwareReconnector) {
             $this->setReconnector(new SystemVariableAwareReconnector($this->reconnector));
