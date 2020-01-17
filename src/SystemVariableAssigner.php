@@ -16,7 +16,7 @@ class SystemVariableAssigner
     protected $pdos;
 
     /**
-     * SystemVariableManager constructor.
+     * SystemVariableAssigner constructor.
      *
      * @param null|\Closure|\PDO &...$pdos
      */
