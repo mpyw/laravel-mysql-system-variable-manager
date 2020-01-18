@@ -19,14 +19,13 @@ build:
       - curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
       - chmod +x docker-compose
       - sudo mv docker-compose /usr/local/bin
-      - curl https://bootstrap.pypa.io/get-pip.py | python
-      - pip install docker-compose-wait
       - cp docker-compose-ci.yml docker-compose.yml
       - export PHP_VERSION=$(php -r 'preg_match("/^((\d+)[.](\d+))[.](\d+)$/", PHP_VERSION, $m); echo $m[1];')
       - docker-compose up -d
+      - |
+        sh -c 'docker-compose logs -f mysql | { sed "/mysqld: ready for connections/ q" && kill $$ ;}' || :
       - composer install
       - mkdir -p build/logs
-      - docker-compose-wait
 
   tests:
     override:
