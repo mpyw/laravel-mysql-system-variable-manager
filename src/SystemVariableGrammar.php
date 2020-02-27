@@ -5,6 +5,28 @@ namespace Mpyw\LaravelMySqlSystemVariableManager;
 class SystemVariableGrammar
 {
     /**
+     * @param  string[] $variables
+     * @return string
+     */
+    public static function selectStatement(array $variables): string
+    {
+        return 'select ' . implode(', ', static::variableExpressions($variables));
+    }
+
+    /**
+     * @param  string[] $variables
+     * @return string[]
+     */
+    public static function variableExpressions(array $variables): array
+    {
+        $expressions = [];
+        foreach ($variables as $variable) {
+            $expressions[] = sprintf('@@%1$s as %1$s', static::escapeIdentifier($variable));
+        }
+        return $expressions;
+    }
+
+    /**
      * @param  array  $values
      * @return string
      */

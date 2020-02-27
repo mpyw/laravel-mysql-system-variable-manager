@@ -53,6 +53,16 @@ DB::setSystemVariables(['long_query_time' => 10.0, 'tx_isolation' => 'read-commi
 
 // Assign a variable on a different connection
 DB::connection('other_mysql_connection')->setSystemVariable('long_query_time', 10.0);
+
+// Run callback temporarily assigning a variable
+DB::usingSystemVariable('long_query_time', 10.0, function () {
+    /* ... */
+});
+
+// Run callback temporarily assigning multiple variables
+DB::usingSystemVariable(['long_query_time' => 10.0, 'tx_isolation' => 'read-committed'], function () {
+    /* ... */
+});
 ```
 
 **WARNING:**  
@@ -97,12 +107,7 @@ class MySqlConnection extends BaseMySqlConnection
     
     public function withoutForeignKeyChecks(callable $callback, ...$args)
     {
-        $this->setSystemVariable('foreign_key_checks', false);
-        try {
-            return $callback(...$args);
-        } finally {
-            $this->setSystemVariable('foreign_key_checks', true);
-        }
+        return $this->usingSystemVariable('foreign_key_checks', false, $callback, ...$args);
     }
 }
 ```
