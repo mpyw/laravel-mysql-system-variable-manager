@@ -3,6 +3,7 @@
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 use Closure;
+use Mpyw\LaravelMySqlSystemVariableManager\Value as BindingValue;
 use Mpyw\LaravelPdoEmulationControl\EmulationController;
 use Mpyw\Unclosure\Value;
 use PDO;
@@ -86,7 +87,8 @@ class SystemVariableAssigner
     {
         $statement = $pdo->prepare($query);
         foreach (array_values($values) as $i => $value) {
-            $statement->bindValue($i + 1, $value, Grammar::paramTypeFor($value));
+            $value = BindingValue::wrap($value);
+            $statement->bindValue($i + 1, $value->getValue(), $value->getParamType());
         }
         $statement->execute();
 
