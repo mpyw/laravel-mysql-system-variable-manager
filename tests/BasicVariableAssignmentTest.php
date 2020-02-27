@@ -2,8 +2,9 @@
 
 namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
+use InvalidArgumentException;
 use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnection;
-use PDOException;
+use Mpyw\LaravelMySqlSystemVariableManager\Value;
 
 class BasicVariableAssignmentTest extends TestCase
 {
@@ -39,13 +40,21 @@ class BasicVariableAssignmentTest extends TestCase
             'assigning boolean (emulated)' => ['foreign_key_checks', true, '1', false, '0'],
             'assigning string (native)' => ['tx_isolation', false, 'REPEATABLE-READ', 'read-committed', 'READ-COMMITTED'],
             'assigning string (emulated)' => ['tx_isolation', true, 'REPEATABLE-READ', 'read-committed', 'READ-COMMITTED'],
+            'assigning wrapped float (native)' => ['long_query_time', false, 10.0, Value::float(15.0), 15.0],
+            'assigning wrapped float (emulated)' => ['long_query_time', true, '10.000000', Value::float(15.0), '15.000000'],
+            'assigning wrapped integer (native)' => ['long_query_time', false, 10.0, Value::int(15), 15.0],
+            'assigning wrapped integer (emulated)' => ['long_query_time', true, '10.000000', Value::int(15), '15.000000'],
+            'assigning wrapped boolean (native)' => ['foreign_key_checks', false, 1, Value::bool(false), 0],
+            'assigning wrapped boolean (emulated)' => ['foreign_key_checks', true, '1', Value::bool(false), '0'],
+            'assigning wrapped string (native)' => ['tx_isolation', false, 'REPEATABLE-READ', Value::str('read-committed'), 'READ-COMMITTED'],
+            'assigning wrapped string (emulated)' => ['tx_isolation', true, 'REPEATABLE-READ', Value::str('read-committed'), 'READ-COMMITTED'],
         ];
     }
 
     public function testAssigningNullThrowsExceptionOnNative(): void
     {
-        $this->expectException(PDOException::class);
-        $this->expectExceptionMessage("SQLSTATE[42000]: Syntax error or access violation: 1231 Variable 'foreign_key_checks' can't be set to the value of 'NULL'");
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a scalar or Mpyw\LaravelMySqlSystemVariableManager\ValueInterface instance.');
 
         $this->onNativeConnection(function (MySqlConnection $db) {
             $db->setSystemVariable('foreign_key_checks', null);
@@ -55,8 +64,8 @@ class BasicVariableAssignmentTest extends TestCase
 
     public function testAssigningNullThrowsExceptionOnEmulation(): void
     {
-        $this->expectException(PDOException::class);
-        $this->expectExceptionMessage("SQLSTATE[42000]: Syntax error or access violation: 1231 Variable 'foreign_key_checks' can't be set to the value of 'NULL'");
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a scalar or Mpyw\LaravelMySqlSystemVariableManager\ValueInterface instance.');
 
         $this->onEmulatedConnection(function (MySqlConnection $db) {
             $db->setSystemVariable('foreign_key_checks', null);
@@ -64,15 +73,24 @@ class BasicVariableAssignmentTest extends TestCase
         });
     }
 
-    public function testAssigningNullDoesNotThrowOnUnresolvedConnection(): void
+    public function testAssigningNullThrowsOnUnresolvedNativeConnection(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a scalar or Mpyw\LaravelMySqlSystemVariableManager\ValueInterface instance.');
+
         $this->onNativeConnection(function (MySqlConnection $db) {
             $db->setSystemVariable('foreign_key_checks', null);
         });
+    }
+
+    public function testAssigningNullThrowsOnUnresolvedEmulatedConnection(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a scalar or Mpyw\LaravelMySqlSystemVariableManager\ValueInterface instance.');
+
         $this->onEmulatedConnection(function (MySqlConnection $db) {
             $db->setSystemVariable('foreign_key_checks', null);
         });
-        $this->assertTrue(true);
     }
 
     public function testAssignmentPriorityOnLazilyResolvedConnection(): void
