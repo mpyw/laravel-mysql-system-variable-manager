@@ -61,7 +61,7 @@ trait ManagesSystemVariables
      * @param  mixed    $value
      * @param  callable $callback
      * @param  mixed    ...$args
-     * @return $this
+     * @return mixed
      */
     public function usingSystemVariable(string $key, $value, callable $callback, ...$args)
     {
@@ -75,13 +75,11 @@ trait ManagesSystemVariables
      * @param  array    $values
      * @param  callable $callback
      * @param  mixed    ...$args
-     * @return $this
+     * @return mixed
      */
     public function usingSystemVariables(array $values, callable $callback, ...$args)
     {
-        (new SystemVariableTemporaryAssigner($this->readPdo, $this->pdo))
+        return (new SystemVariableTemporaryAssigner($this->readPdo, $this->pdo))
             ->using($values, $callback, ...$args);
-
-        return $this;
     }
 }
