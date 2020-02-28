@@ -2,11 +2,14 @@
 
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
+use Closure;
 use InvalidArgumentException;
-use PDO;
+use ReflectionFunction;
 
 class Value implements ValueInterface
 {
+    use ExpressionTrait;
+
     /**
      * @var mixed
      */
@@ -25,7 +28,7 @@ class Value implements ValueInterface
      */
     public static function int(int $value)
     {
-        return new static($value, static::TYPE_INT);
+        return new static($value, static::TYPE_INTEGER);
     }
 
     /**
@@ -36,7 +39,7 @@ class Value implements ValueInterface
      */
     public static function bool(bool $value)
     {
-        return new static($value, static::TYPE_BOOL);
+        return new static($value, static::TYPE_BOOLEAN);
     }
 
     /**
@@ -58,47 +61,62 @@ class Value implements ValueInterface
      */
     public static function str(string $value)
     {
-        return new static($value, static::TYPE_STR);
+        return new static($value, static::TYPE_STRING);
     }
 
     /**
      * Create new typed value for MySQL system variable.
      *
-     * @param  string                                                 $type
-     * @param  bool|float|int|string                                  $value
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\ValueInterface
+     * @param  string                                                      $type
+     * @param  bool|float|int|string                                       $value
+     * @return \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface
      */
-    public static function as(string $type, $value): ValueInterface
+    public static function as(string $type, $value): ExpressionInterface
     {
         switch ($type) {
-            case static::TYPE_INT:
+            case static::TYPE_INTEGER:
                 return static::int($value);
-            case static::TYPE_BOOL:
+            case static::TYPE_BOOLEAN:
                 return static::bool($value);
             case static::TYPE_FLOAT:
                 return static::float($value);
-            case static::TYPE_STR:
+            case static::TYPE_STRING:
                 return static::str($value);
             default:
                 throw new InvalidArgumentException('The type must be one of "integer", "boolean", "double" or "string".');
         }
     }
 
+    /** @noinspection PhpDocMissingThrowsInspection */
+
     /**
      * Automatically wrap a non-null value.
      *
-     * @param  mixed                                                  $value
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\ValueInterface
+     * @param  mixed                                                       $value
+     * @return \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface
      */
-    public static function wrap($value): ValueInterface
+    public static function wrap($value): ExpressionInterface
     {
-        if ($value instanceof ValueInterface) {
+        if ($value instanceof ExpressionInterface) {
             return $value;
         }
+
         if (is_scalar($value)) {
             return static::as(gettype($value), $value);
         }
-        throw new InvalidArgumentException('The value must be a scalar or ' . ValueInterface::class . ' instance.');
+
+        if ($value instanceof Closure) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            $reflector = new ReflectionFunction($value);
+            if ($reflector->hasReturnType()) {
+                $returnType = $reflector->getReturnType();
+                if (!$returnType->allowsNull() && $type = ExpressionInterface::GRAMMATICAL_TYPE_TO_STRING_TYPE[$returnType->getName()] ?? null) {
+                    return Replacer::as($type, $value);
+                }
+            }
+        }
+
+        throw new InvalidArgumentException('The value must be a scalar, return-type-explicit closure or ' . ExpressionInterface::class . ' instance.');
     }
 
     /**
@@ -131,42 +149,5 @@ class Value implements ValueInterface
     public function getType(): string
     {
         return $this->type;
-    }
-
-    /**
-     * Return PDO::PARAM_* type.
-     *
-     * @return int
-     */
-    public function getParamType(): int
-    {
-        switch ($this->type) {
-            case static::TYPE_INT:
-                return PDO::PARAM_INT;
-            case static::TYPE_BOOL:
-                return PDO::PARAM_BOOL;
-            case static::TYPE_FLOAT:
-            case static::TYPE_STR:
-            default:
-                return PDO::PARAM_STR;
-        }
-    }
-
-    /**
-     * Return a placeholder format.
-     *
-     * @return string
-     */
-    public function getPlaceholder(): string
-    {
-        switch ($this->type) {
-            case static::TYPE_FLOAT:
-                return 'cast(? as decimal(65, 30))';
-            case static::TYPE_INT:
-            case static::TYPE_BOOL:
-            case static::TYPE_STR:
-            default:
-                return '?';
-        }
     }
 }
