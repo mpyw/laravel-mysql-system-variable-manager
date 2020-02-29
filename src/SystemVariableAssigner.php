@@ -8,9 +8,8 @@ use Mpyw\LaravelMySqlSystemVariableManager\Replacers\BooleanReplacerInterface;
 use Mpyw\LaravelMySqlSystemVariableManager\Replacers\FloatReplacerInterface;
 use Mpyw\LaravelMySqlSystemVariableManager\Replacers\IntegerReplacerInterface;
 use Mpyw\LaravelMySqlSystemVariableManager\Replacers\StringReplacerInterface;
-use Mpyw\LaravelMySqlSystemVariableManager\Value as BindingValue;
 use Mpyw\LaravelPdoEmulationControl\EmulationController;
-use Mpyw\Unclosure\Value;
+use Mpyw\Unclosure\Value as ValueEffector;
 use PDO;
 use Mpyw\LaravelMySqlSystemVariableManager\SystemVariableGrammar as Grammar;
 use PDOStatement;
@@ -55,7 +54,7 @@ class SystemVariableAssigner
     protected function withEmulatedStatement(string $query, array $values = [])
     {
         foreach ($this->pdos as &$pdo) {
-            $pdo = Value::withCallback(
+            $pdo = ValueEffector::withCallback(
                 $pdo,
                 Closure::fromCallable([$this, 'withEmulatedStatementFor']),
                 $query,
@@ -91,7 +90,7 @@ class SystemVariableAssigner
      */
     protected static function withStatementFor(PDO $pdo, string $query, array $values): PDO
     {
-        $expressions = array_map([BindingValue::class, 'wrap'], $values);
+        $expressions = array_map([Value::class, 'wrap'], $values);
         $original = static::selectOriginalVariablesForReplacer($pdo, $expressions);
         $statement = $pdo->prepare($query);
 
