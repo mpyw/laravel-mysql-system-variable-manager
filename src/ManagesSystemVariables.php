@@ -10,14 +10,6 @@ namespace Mpyw\LaravelMySqlSystemVariableManager;
 trait ManagesSystemVariables
 {
     /**
-     * Set the reconnect instance on the connection.
-     *
-     * @param  callable $reconnector
-     * @return $this
-     */
-    abstract public function setReconnector(callable $reconnector);
-
-    /**
      * Set MySQL system variable for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
@@ -41,14 +33,8 @@ trait ManagesSystemVariables
      */
     public function setSystemVariables(array $values, bool $memoizeForReconnect = true)
     {
-        (new SystemVariableAssigner($this->readPdo, $this->pdo))->assign($values);
-
-        if (!$this->reconnector instanceof SystemVariableAwareReconnector) {
-            $this->setReconnector(new SystemVariableAwareReconnector($this->reconnector));
-        }
-        if ($memoizeForReconnect) {
-            $this->reconnector->memoizeSystemVariables($values);
-        }
+        (new SystemVariableMemoizedAssigner($this->reconnector, $this->readPdo, $this->pdo))
+            ->assign($values, $memoizeForReconnect);
 
         return $this;
     }
