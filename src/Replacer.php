@@ -62,7 +62,7 @@ class Replacer
      * Create new typed replacer for MySQL system variable.
      *
      * @param  string                                                      $type
-     * @param  bool|float|int|string                                       $callback
+     * @param  callable                                                    $callback
      * @return \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface
      */
     public static function as(string $type, $callback): ExpressionInterface

@@ -25,7 +25,7 @@ interface ExpressionInterface
     public function getType(): string;
 
     /**
-     * Return PDO::PARAM_* type.s
+     * Return PDO::PARAM_* type.
      *
      * @return int
      */

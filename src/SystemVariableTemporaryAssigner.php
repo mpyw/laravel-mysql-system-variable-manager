@@ -2,7 +2,7 @@
 
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
-use Mpyw\Unclosure\Value;
+use Mpyw\Unclosure\Value as ValueEffector;
 use PDO;
 
 class SystemVariableTemporaryAssigner
@@ -32,7 +32,7 @@ class SystemVariableTemporaryAssigner
      */
     public function using(array $using, callable $callback, ...$args)
     {
-        return Value::withEffectForEach($this->pdos, function (PDO $pdo) use ($using) {
+        return ValueEffector::withEffectForEach($this->pdos, function (PDO $pdo) use ($using) {
             $original = SystemVariableSelector::selectOriginalVariables($pdo, $using);
             (new SystemVariableAssigner($pdo))->assign($using);
 

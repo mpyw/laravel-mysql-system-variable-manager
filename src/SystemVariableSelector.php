@@ -2,7 +2,6 @@
 
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
-use Mpyw\LaravelMySqlSystemVariableManager\Value as BindingValue;
 use PDO;
 
 class SystemVariableSelector
@@ -25,7 +24,7 @@ class SystemVariableSelector
             ->fetch(PDO::FETCH_ASSOC);
 
         foreach ($original as $key => $value) {
-            $original[$key] = BindingValue::as(BindingValue::wrap($newValues[$key])->getType(), $value);
+            $original[$key] = Value::as(Value::wrap($newValues[$key])->getType(), $value);
         }
 
         return $original;
