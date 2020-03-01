@@ -40,6 +40,19 @@ trait ManagesSystemVariables
     }
 
     /**
+     * Set "sql_mode" for both read and write PDOs.
+     * It is lazily executed for unresolved PDO instance.
+     *
+     * @param  \Closure|\Mpyw\LaravelMySqlSystemVariableManager\Replacers\StringReplacerInterface|string $value
+     * @param  bool                                                                                      $memoizeForReconnect
+     * @return $this
+     */
+    public function setSqlMode($value, bool $memoizeForReconnect = true)
+    {
+        return $this->setSystemVariable('sql_mode', $value, $memoizeForReconnect);
+    }
+
+    /**
      * Run callback temporarily setting MySQL system variable for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
@@ -67,5 +80,19 @@ trait ManagesSystemVariables
     {
         return (new SystemVariableTemporaryAssigner($this->readPdo, $this->pdo))
             ->using($values, $callback, ...$args);
+    }
+
+    /**
+     * Run callback temporarily setting "sql_mode" for both read and write PDOs.
+     * It is lazily executed for unresolved PDO instance.
+     *
+     * @param  \Closure|\Mpyw\LaravelMySqlSystemVariableManager\Replacers\StringReplacerInterface|string $value
+     * @param  callable                                                                                  $callback
+     * @param  mixed                                                                                     ...$args
+     * @return mixed
+     */
+    public function usingSqlMode($value, callable $callback, ...$args)
+    {
+        return $this->usingSystemVariable('sql_mode', $value, $callback, ...$args);
     }
 }

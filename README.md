@@ -13,8 +13,6 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 composer require mpyw/laravel-mysql-system-variable-manager
 ```
 
-## Basic Usage
-
 The default implementation is provided by `MySqlConnectionServiceProvider`, however, **package discovery is not available**.
 Be careful that you MUST register it in **`config/app.php`** by yourself.
 
@@ -36,6 +34,10 @@ return [
 ];
 ```
 
+## Basic Usage
+
+### Setting auto-recoverable system variables
+
 ```php
 <?php
 
@@ -53,6 +55,14 @@ DB::setSystemVariables(['long_query_time' => 10.0, 'tx_isolation' => 'read-commi
 
 // Assign a variable on a different connection
 DB::connection('other_mysql_connection')->setSystemVariable('long_query_time', 10.0);
+```
+
+### Temporarily changing system variables
+
+```php
+<?php
+
+use Illuminate\Support\Facades\DB;
 
 // Run callback temporarily assigning a variable
 DB::usingSystemVariable('long_query_time', 10.0, function () {
@@ -63,9 +73,28 @@ DB::usingSystemVariable('long_query_time', 10.0, function () {
 DB::usingSystemVariables(['long_query_time' => 10.0, 'tx_isolation' => 'read-committed'], function () {
     /* ... */
 });
+```
+
+### Replacing system variables
+
+You can pass `Closure` as a replacer. Note that return type **MUST** be declared.
+
+```php
+<?php
+
+use Illuminate\Support\Facades\DB;
 
 // Run callback replacing current value
-// NOTE: You MUST declare closure return types.
+DB::setSystemVariables([
+    'long_query_time' => function (float $currentValue): float {
+         return $currentValue + 5.0;
+    },
+    'sql_mode' => function (string $currentValue): string {
+         return str_replace('ONLY_FULL_GROUP_BY', '', $currentValue);
+    },
+]);
+
+// Run callback replacing current value
 DB::usingSystemVariables(
     [
         'long_query_time' => function (float $currentValue): float {
@@ -79,6 +108,17 @@ DB::usingSystemVariables(
         /* ... */
     }
 );
+```
+
+### Helpers for managing `sql_mode`
+
+```php
+<?php
+
+use Illuminate\Support\Facades\DB;
+use Mpyw\LaravelMySqlSystemVariableManager\SqlMode;
+
+DB::setSqlMode(SqlMode::disable('ONLY_FULL_GROUP_BY', 'ERROR_FOR_DIVISION_BY_ZERO')->disable('ALLOW_INVALID_DATES'));
 ```
 
 **WARNING:**  
