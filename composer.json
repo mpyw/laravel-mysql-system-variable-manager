@@ -29,8 +29,8 @@
         "mpyw/laravel-pdo-emulation-control": "^0.1.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0",
-        "laravel/framework": "^6.0",
+        "orchestra/testbench": "^5.0",
+        "laravel/framework": "^7.0",
         "friendsofphp/php-cs-fixer": "^2.15"
     }
 }
