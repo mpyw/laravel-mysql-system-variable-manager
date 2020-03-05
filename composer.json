@@ -25,8 +25,8 @@
         "ext-pdo": "*",
         "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0",
         "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0",
-        "mpyw/unclosure": "^0.1.0",
-        "mpyw/laravel-pdo-emulation-control": "^0.1.0"
+        "mpyw/unclosure": "^1.0",
+        "mpyw/laravel-pdo-emulation-control": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0",
