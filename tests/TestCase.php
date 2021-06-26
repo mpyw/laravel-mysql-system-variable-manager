@@ -2,6 +2,7 @@
 
 namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
+use Closure;
 use Illuminate\Support\Facades\DB;
 use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnectionServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -14,19 +15,23 @@ class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $host = \gethostbyname('mysql') !== 'mysql' // Is "mysql" valid hostname?
+            ? 'mysql' // Local
+            : '127.0.0.1'; // CI
+
         $app['config']->set('database.default', 'mysql');
         $app['config']->set('database.connections.mysql', [
             'driver' => 'mysql',
-            'host' => 'mysql',
-            'username' => 'user',
-            'password' => 'password',
+            'host' => $host,
+            'username' => 'testing',
+            'password' => 'testing',
             'database' => 'testing',
         ]);
         $app['config']->set('database.connections.mysql:emulated', [
             'driver' => 'mysql',
-            'host' => 'mysql',
-            'username' => 'user',
-            'password' => 'password',
+            'host' => $host,
+            'username' => 'testing',
+            'password' => 'testing',
             'database' => 'testing',
             'options' => [
                 PDO::ATTR_EMULATE_PREPARES => true,
@@ -53,5 +58,27 @@ class TestCase extends BaseTestCase
     protected function onEmulatedConnection(callable $callback): void
     {
         $callback(DB::connection('mysql:emulated'));
+    }
+
+    /**
+     * @param  string        $property
+     * @return \Closure|\PDO
+     */
+    protected function getConnectionPropertyValue(string $connection, string $property)
+    {
+        $db = DB::connection($connection);
+        $rp = new \ReflectionProperty($db, $property);
+        $rp->setAccessible(true);
+        return $rp->getValue($db);
+    }
+
+    protected function assertPdoResolved(string $connection): void
+    {
+        $this->assertInstanceOf(PDO::class, $this->getConnectionPropertyValue($connection, 'pdo'));
+    }
+
+    protected function assertPdoNotResolved(string $connection): void
+    {
+        $this->assertInstanceOf(Closure::class, $this->getConnectionPropertyValue($connection, 'pdo'));
     }
 }
