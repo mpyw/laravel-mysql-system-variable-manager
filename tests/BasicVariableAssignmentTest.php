@@ -133,42 +133,82 @@ class BasicVariableAssignmentTest extends TestCase
     public function testAssignmentPriorityOnLazilyResolvedConnection(): void
     {
         $this->onNativeConnection(function (MySqlConnection $db) {
+            $this->assertPdoNotResolved($db->getName());
+
             $db
                 ->setSystemVariable('long_query_time', 11.0)
                 ->setSystemVariable('long_query_time', 12.0)
                 ->setSystemVariable('long_query_time', 13.0);
+
+            $this->assertPdoNotResolved($db->getName());
+
             $db->getPdo();
+
+            $this->assertPdoResolved($db->getName());
+
             $this->assertSame(13.0, $db->selectOne('select @@long_query_time as value')->value);
+
+            $this->assertPdoResolved($db->getName());
         });
 
         $this->onEmulatedConnection(function (MySqlConnection $db) {
+            $this->assertPdoNotResolved($db->getName());
+
             $db
                 ->setSystemVariable('long_query_time', 11.0)
                 ->setSystemVariable('long_query_time', 12.0)
                 ->setSystemVariable('long_query_time', 13.0);
+
+            $this->assertPdoNotResolved($db->getName());
+
             $db->getPdo();
+
+            $this->assertPdoResolved($db->getName());
+
             $this->assertSame('13.000000', $db->selectOne('select @@long_query_time as value')->value);
+
+            $this->assertPdoResolved($db->getName());
         });
     }
 
     public function testAssignmentPriorityOnEagerlyResolvedConnection(): void
     {
         $this->onNativeConnection(function (MySqlConnection $db) {
+            $this->assertPdoNotResolved($db->getName());
+
             $db->getPdo();
+
+            $this->assertPdoResolved($db->getName());
+
             $db
                 ->setSystemVariable('long_query_time', 11.0)
                 ->setSystemVariable('long_query_time', 12.0)
                 ->setSystemVariable('long_query_time', 13.0);
+
+            $this->assertPdoResolved($db->getName());
+
             $this->assertSame(13.0, $db->selectOne('select @@long_query_time as value')->value);
+
+            $this->assertPdoResolved($db->getName());
         });
 
         $this->onEmulatedConnection(function (MySqlConnection $db) {
+            $this->assertPdoNotResolved($db->getName());
+
             $db->getPdo();
+
+            $this->assertPdoResolved($db->getName());
+
             $db
                 ->setSystemVariable('long_query_time', 11.0)
                 ->setSystemVariable('long_query_time', 12.0)
                 ->setSystemVariable('long_query_time', 13.0);
+
+            $this->assertPdoResolved($db->getName());
+
             $this->assertSame('13.000000', $db->selectOne('select @@long_query_time as value')->value);
+
+            $this->assertPdoResolved($db->getName());
         });
     }
 }
