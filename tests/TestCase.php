@@ -81,4 +81,17 @@ class TestCase extends BaseTestCase
     {
         $this->assertInstanceOf(Closure::class, $this->getConnectionPropertyValue($connection, 'pdo'));
     }
+
+    /**
+     * @param mixed $v80
+     * @param mixed $v81
+     * @return mixed
+     */
+    protected function v81($v80, $v81)
+    {
+        // Since PHP 8.1, always get native number regardless of emulation.
+        return version_compare(PHP_VERSION, '8.1', '<')
+            ? $v80
+            : $v81;
+    }
 }

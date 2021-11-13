@@ -4,8 +4,8 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 
 ## Requirements
 
-- PHP: `^7.1 || ^8.0`
-- Laravel: `^5.8 || ^6.0 || ^7.0 || ^8.0`
+- PHP: `^7.3 || ^8.0`
+- Laravel: `^6.0 || ^7.0 || ^8.0 || ^9.0`
 
 ## Installing
 

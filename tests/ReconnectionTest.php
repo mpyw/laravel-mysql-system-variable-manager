@@ -25,7 +25,7 @@ class ReconnectionTest extends TestCase
 
         $this->onEmulatedConnection(function (MySqlConnection $db) {
             $this->assertSame('REPEATABLE-READ', $db->selectOne('select @@tx_isolation as value')->value);
-            $this->assertSame('10.000000', $db->selectOne('select @@long_query_time as value')->value);
+            $this->assertSame($this->v81('10.000000', 10.0), $db->selectOne('select @@long_query_time as value')->value);
 
             $db
                 ->setSystemVariable('tx_isolation', 'read-committed')
@@ -34,7 +34,7 @@ class ReconnectionTest extends TestCase
             $db->reconnect();
 
             $this->assertSame('READ-COMMITTED', $db->selectOne('select @@tx_isolation as value')->value);
-            $this->assertSame('10.000000', $db->selectOne('select @@long_query_time as value')->value);
+            $this->assertSame($this->v81('10.000000', 10.0), $db->selectOne('select @@long_query_time as value')->value);
         });
     }
 

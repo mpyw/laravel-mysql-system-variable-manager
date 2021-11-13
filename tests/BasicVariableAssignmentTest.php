@@ -54,35 +54,35 @@ class BasicVariableAssignmentTest extends TestCase
     {
         return [
             'assigning float (native)' => ['long_query_time', false, 10.0, 15.0, 15.0],
-            'assigning float (emulated)' => ['long_query_time', true, '10.000000', 15.0, '15.000000'],
+            'assigning float (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), 15.0, $this->v81('15.000000', 15.0)],
             'assigning integer (native)' => ['long_query_time', false, 10.0, 15, 15.0],
-            'assigning integer (emulated)' => ['long_query_time', true, '10.000000', 15, '15.000000'],
+            'assigning integer (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), 15, $this->v81('15.000000', 15.0)],
             'assigning boolean (native)' => ['foreign_key_checks', false, 1, false, 0],
-            'assigning boolean (emulated)' => ['foreign_key_checks', true, '1', false, '0'],
+            'assigning boolean (emulated)' => ['foreign_key_checks', true, $this->v81('1', 1), false, $this->v81('0', 0)],
             'assigning string (native)' => ['tx_isolation', false, 'REPEATABLE-READ', 'read-committed', 'READ-COMMITTED'],
             'assigning string (emulated)' => ['tx_isolation', true, 'REPEATABLE-READ', 'read-committed', 'READ-COMMITTED'],
             'assigning wrapped float (native)' => ['long_query_time', false, 10.0, Value::float(15.0), 15.0],
-            'assigning wrapped float (emulated)' => ['long_query_time', true, '10.000000', Value::float(15.0), '15.000000'],
+            'assigning wrapped float (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), Value::float(15.0), $this->v81('15.000000', 15.0)],
             'assigning wrapped integer (native)' => ['long_query_time', false, 10.0, Value::int(15), 15.0],
-            'assigning wrapped integer (emulated)' => ['long_query_time', true, '10.000000', Value::int(15), '15.000000'],
+            'assigning wrapped integer (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), Value::int(15), $this->v81('15.000000', 15.0)],
             'assigning wrapped boolean (native)' => ['foreign_key_checks', false, 1, Value::bool(false), 0],
-            'assigning wrapped boolean (emulated)' => ['foreign_key_checks', true, '1', Value::bool(false), '0'],
+            'assigning wrapped boolean (emulated)' => ['foreign_key_checks', true, $this->v81('1', 1), Value::bool(false), $this->v81('0', 0)],
             'assigning wrapped string (native)' => ['tx_isolation', false, 'REPEATABLE-READ', Value::str('read-committed'), 'READ-COMMITTED'],
             'assigning wrapped string (emulated)' => ['tx_isolation', true, 'REPEATABLE-READ', Value::str('read-committed'), 'READ-COMMITTED'],
             'replacing explicit float (native)' => ['long_query_time', false, 10.0, Replacer::float(function ($v) { return $v + 5.0; }), 15.0],
-            'replacing explicit float (emulated)' => ['long_query_time', true, '10.000000', Replacer::float(function ($v) { return $v + 5.0; }), '15.000000'],
+            'replacing explicit float (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), Replacer::float(function ($v) { return $v + 5.0; }), $this->v81('15.000000', 15.0)],
             'replacing explicit integer (native)' => ['long_query_time', false, 10.0, Replacer::int(function ($v) { return $v + 5; }), 15.0],
-            'replacing explicit integer (emulated)' => ['long_query_time', true, '10.000000', Replacer::int(function ($v) { return $v + 5; }), '15.000000'],
+            'replacing explicit integer (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), Replacer::int(function ($v) { return $v + 5; }), $this->v81('15.000000', 15.0)],
             'replacing explicit boolean (native)' => ['foreign_key_checks', false, 1, Replacer::bool(function ($v) { return !$v; }), 0],
-            'replacing explicit boolean (emulated)' => ['foreign_key_checks', true, '1', Replacer::bool(function ($v) { return !$v; }), '0'],
+            'replacing explicit boolean (emulated)' => ['foreign_key_checks', true, $this->v81('1', 1), Replacer::bool(function ($v) { return !$v; }), $this->v81('0', 0)],
             'replacing explicit string (native)' => ['tx_isolation', false, 'REPEATABLE-READ', Replacer::str(function ($v) { return str_ireplace('repeatable-read', 'read-committed', $v); }), 'READ-COMMITTED'],
             'replacing explicit string (emulated)' => ['tx_isolation', true, 'REPEATABLE-READ', Replacer::str(function ($v) { return str_ireplace('repeatable-read', 'read-committed', $v); }), 'READ-COMMITTED'],
             'replacing implicit float (native)' => ['long_query_time', false, 10.0, function ($v): float { return $v + 5.0; }, 15.0],
-            'replacing implicit float (emulated)' => ['long_query_time', true, '10.000000', function ($v): float { return $v + 5.0; }, '15.000000'],
+            'replacing implicit float (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), function ($v): float { return $v + 5.0; }, $this->v81('15.000000', 15.0)],
             'replacing implicit integer (native)' => ['long_query_time', false, 10.0, function ($v): int { return $v + 5; }, 15.0],
-            'replacing implicit integer (emulated)' => ['long_query_time', true, '10.000000', function ($v): int { return $v + 5; }, '15.000000'],
+            'replacing implicit integer (emulated)' => ['long_query_time', true, $this->v81('10.000000', 10.0), function ($v): int { return $v + 5; }, $this->v81('15.000000', 15.0)],
             'replacing implicit boolean (native)' => ['foreign_key_checks', false, 1, function ($v): bool { return !$v; }, 0],
-            'replacing implicit boolean (emulated)' => ['foreign_key_checks', true, '1', function ($v): bool { return !$v; }, '0'],
+            'replacing implicit boolean (emulated)' => ['foreign_key_checks', true, $this->v81('1', 1), function ($v): bool { return !$v; }, $this->v81('0', 0)],
             'replacing implicit string (native)' => ['tx_isolation', false, 'REPEATABLE-READ', function ($v): string { return str_ireplace('repeatable-read', 'read-committed', $v); }, 'READ-COMMITTED'],
             'replacing implicit string (emulated)' => ['tx_isolation', true, 'REPEATABLE-READ', function ($v): string { return str_ireplace('repeatable-read', 'read-committed', $v); }, 'READ-COMMITTED'],
         ];
@@ -165,7 +165,7 @@ class BasicVariableAssignmentTest extends TestCase
 
             $this->assertPdoResolved($db->getName());
 
-            $this->assertSame('13.000000', $db->selectOne('select @@long_query_time as value')->value);
+            $this->assertSame($this->v81('13.000000', 13.0), $db->selectOne('select @@long_query_time as value')->value);
 
             $this->assertPdoResolved($db->getName());
         });
@@ -206,7 +206,7 @@ class BasicVariableAssignmentTest extends TestCase
 
             $this->assertPdoResolved($db->getName());
 
-            $this->assertSame('13.000000', $db->selectOne('select @@long_query_time as value')->value);
+            $this->assertSame($this->v81('13.000000', 13.0), $db->selectOne('select @@long_query_time as value')->value);
 
             $this->assertPdoResolved($db->getName());
         });
