@@ -29,7 +29,9 @@
         "mpyw/laravel-pdo-emulation-control": "^1.0"
     },
     "require-dev": {
-        "orchestra/testbench": "*"
+        "orchestra/testbench": "*",
+        "orchestra/testbench-core": "^4.9 || ^5.9 || >=6.6",
+        "phpunit/phpunit": ">=9.5"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
