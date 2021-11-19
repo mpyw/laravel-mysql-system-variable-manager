@@ -13,9 +13,7 @@ trait ManagesSystemVariables
      * Set MySQL system variable for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
-     * @param  string $key
-     * @param  mixed  $value
-     * @param  bool   $memoizeForReconnect
+     * @param  mixed $value
      * @return $this
      */
     public function setSystemVariable(string $key, $value, bool $memoizeForReconnect = true)
@@ -27,8 +25,8 @@ trait ManagesSystemVariables
      * Set MySQL system variables for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
-     * @param  array $values
-     * @param  bool  $memoizeForReconnect
+     * @param  array  $values
+     * @param  bool   $memoizeForReconnect
      * @return $this
      */
     public function setSystemVariables(array $values, bool $memoizeForReconnect = true)
@@ -43,10 +41,8 @@ trait ManagesSystemVariables
      * Run callback temporarily setting MySQL system variable for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
-     * @param  string   $key
-     * @param  mixed    $value
-     * @param  callable $callback
-     * @param  mixed    ...$args
+     * @param  mixed $value
+     * @param  mixed ...$args
      * @return mixed
      */
     public function usingSystemVariable(string $key, $value, callable $callback, ...$args)
@@ -58,9 +54,8 @@ trait ManagesSystemVariables
      * Run callback temporarily setting MySQL system variables for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
-     * @param  array    $values
-     * @param  callable $callback
-     * @param  mixed    ...$args
+     * @param  array $values
+     * @param  mixed ...$args
      * @return mixed
      */
     public function usingSystemVariables(array $values, callable $callback, ...$args)

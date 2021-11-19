@@ -20,21 +20,17 @@ interface ExpressionInterface
     /**
      * Return type.
      *
-     * @return string
+     * @phpstan-return self::TYPE_INTEGER|self::TYPE_BOOLEAN|self::TYPE_FLOAT|self::TYPE_STRING
      */
     public function getType(): string;
 
     /**
      * Return PDO::PARAM_* type.
-     *
-     * @return int
      */
     public function getParamType(): int;
 
     /**
      * Return placeholder for prepared statement.
-     *
-     * @return string
      */
     public function getPlaceholder(): string;
 }

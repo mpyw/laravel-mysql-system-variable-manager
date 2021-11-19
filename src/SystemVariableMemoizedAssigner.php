@@ -4,15 +4,12 @@ namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 class SystemVariableMemoizedAssigner
 {
-    /**
-     * @var \Mpyw\LaravelMySqlSystemVariableManager\SystemVariableAwareReconnector
-     */
-    protected $reconnector;
+    protected SystemVariableAwareReconnector $reconnector;
 
     /**
      * @var \Closure[]|\PDO[]
      */
-    protected $pdos;
+    protected array $pdos;
 
     /**
      * SystemVariableMemoizedAssigner constructor.
@@ -26,14 +23,13 @@ class SystemVariableMemoizedAssigner
             ? new SystemVariableAwareReconnector($reconnector)
             : $reconnector;
 
-        $this->pdos = array_filter($pdos);
+        $this->pdos = \array_filter($pdos);
     }
 
     /**
      * Set MySQL system variables for PDO.
      *
      * @param  array $values
-     * @param  bool  $memoizeForReconnect
      * @return $this
      */
     public function assign(array $values, bool $memoizeForReconnect = true)

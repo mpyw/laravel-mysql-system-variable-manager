@@ -1,0 +1,13 @@
+services:
+    -
+        class: Mpyw\LaravelMySqlSystemVariableManager\PHPStan\ConnectionClassExtension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension
+    -
+        class: Mpyw\LaravelMySqlSystemVariableManager\PHPStan\CallableReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mpyw\LaravelMySqlSystemVariableManager\PHPStan\CallableFacadeReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension

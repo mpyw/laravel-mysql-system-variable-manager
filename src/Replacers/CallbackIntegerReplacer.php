@@ -11,13 +11,14 @@ class CallbackIntegerReplacer implements IntegerReplacerInterface
 
     /**
      * @var callable
+     * @phpstan-var callable(int): int
      */
     protected $callback;
 
     /**
      * ClosureIntegerReplacer constructor.
      *
-     * @param callable $callback
+     * @phpstan-param callable(int): int $callback
      */
     public function __construct(callable $callback)
     {
@@ -26,9 +27,6 @@ class CallbackIntegerReplacer implements IntegerReplacerInterface
 
     /**
      * Replace integer variable value.
-     *
-     * @param  int $value
-     * @return int
      */
     public function replace(int $value): int
     {
@@ -38,7 +36,7 @@ class CallbackIntegerReplacer implements IntegerReplacerInterface
     /**
      * Return type.
      *
-     * @return string
+     * @phpstan-return ExpressionInterface::TYPE_INTEGER
      */
     public function getType(): string
     {

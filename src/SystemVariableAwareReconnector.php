@@ -13,7 +13,7 @@ class SystemVariableAwareReconnector
     /**
      * @var array
      */
-    protected $memoizedSystemVariables = [];
+    protected array $memoizedSystemVariables = [];
 
     /**
      * @var null|callable
@@ -22,8 +22,6 @@ class SystemVariableAwareReconnector
 
     /**
      * SystemVariableAwareReconnector constructor.
-     *
-     * @param null|callable $reconnector
      */
     public function __construct(?callable $reconnector = null)
     {
@@ -36,17 +34,16 @@ class SystemVariableAwareReconnector
      */
     public function memoizeSystemVariables(array $values)
     {
-        $this->memoizedSystemVariables = array_replace($this->memoizedSystemVariables, $values);
+        $this->memoizedSystemVariables = \array_replace($this->memoizedSystemVariables, $values);
         return $this;
     }
 
     /**
-     * @param  \Illuminate\Database\ConnectionInterface|\Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables $connection
      * @return mixed
      */
     public function __invoke(ConnectionInterface $connection)
     {
-        if (is_callable($this->reconnector)) {
+        if (\is_callable($this->reconnector) && \method_exists($connection, 'setSystemVariables')) {
             $result = ($this->reconnector)($connection);
             $connection->setSystemVariables($this->memoizedSystemVariables, true);
             return $result;

@@ -12,7 +12,8 @@
     "keywords": ["laravel", "illuminate", "mysql", "system", "variable"],
     "autoload": {
         "psr-4": {
-            "Mpyw\\LaravelMySqlSystemVariableManager\\": "src/"
+            "Mpyw\\LaravelMySqlSystemVariableManager\\": "src/",
+            "Mpyw\\LaravelMySqlSystemVariableManager\\PHPStan\\": "phpstan/"
         }
     },
     "autoload-dev": {
@@ -21,18 +22,32 @@
         }
     },
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-pdo": "*",
         "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0",
         "illuminate/database": "^6.0 || ^7.0 || ^8.0 || ^9.0",
-        "mpyw/unclosure": "^1.0",
-        "mpyw/laravel-pdo-emulation-control": "^1.0"
+        "mpyw/unclosure": "^3.0",
+        "mpyw/laravel-pdo-emulation-control": "^2.0.2"
     },
     "require-dev": {
         "orchestra/testbench": "*",
         "orchestra/testbench-core": "^4.9 || ^5.9 || >=6.6",
-        "phpunit/phpunit": ">=9.5"
+        "phpunit/phpunit": ">=9.5",
+        "phpstan/phpstan": ">=1.1",
+        "phpstan/extension-installer": ">=1.1",
+        "nunomaduro/larastan": "^1.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse src tests phpstan"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
+    }
 }

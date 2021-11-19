@@ -11,15 +11,11 @@ trait ExpressionTrait
 {
     /**
      * Return type.
-     *
-     * @return string
      */
     abstract public function getType(): string;
 
     /**
      * Return PDO::PARAM_* type.
-     *
-     * @return int
      */
     public function getParamType(): int
     {
@@ -37,8 +33,6 @@ trait ExpressionTrait
 
     /**
      * Return a placeholder format.
-     *
-     * @return string
      */
     public function getPlaceholder(): string
     {

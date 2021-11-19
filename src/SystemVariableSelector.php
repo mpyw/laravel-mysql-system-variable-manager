@@ -9,7 +9,6 @@ class SystemVariableSelector
     /**
      * Select current MySQL system variable values.
      *
-     * @param  \PDO                                                     $pdo
      * @param  array                                                    $newValues
      * @return \Mpyw\LaravelMySqlSystemVariableManager\ValueInterface[]
      */
@@ -19,9 +18,17 @@ class SystemVariableSelector
             return [];
         }
 
-        $original = $pdo
-            ->query(SystemVariableGrammar::selectStatement(array_keys($newValues)))
-            ->fetch(PDO::FETCH_ASSOC);
+        $stmt = $pdo->query(SystemVariableGrammar::selectStatement(\array_keys($newValues)));
+
+        if (!$stmt) {
+            // @codeCoverageIgnoreStart
+            return [];
+            // @codeCoverageIgnoreEnd
+        }
+
+        $original = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        \assert(\is_array($original));
 
         foreach ($original as $key => $value) {
             $original[$key] = Value::as(Value::wrap($newValues[$key])->getType(), $value);

@@ -4,6 +4,7 @@ checks:
 
 filter:
   excluded_paths:
+    - phpstan/*
     - tests/*
     - vendor/*
 
@@ -14,12 +15,6 @@ build:
       tests:
         override:
           - php-scrutinizer-run
-
-  environment:
-    php: '7.4'
-    docker: true
-
-  nodes:
     custom-nodes:
       services:
         custom-mysql:
@@ -31,6 +26,10 @@ build:
             MYSQL_ROOT_PASSWORD: testing
           ports:
             - 3306
+
+  environment:
+    php: '7.4'
+    docker: true
 
   dependencies:
     before:

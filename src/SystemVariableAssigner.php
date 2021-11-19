@@ -19,7 +19,7 @@ class SystemVariableAssigner
     /**
      * @var \Closure[]|\PDO[]
      */
-    protected $pdos;
+    protected array $pdos;
 
     /**
      * SystemVariableAssigner constructor.
@@ -28,7 +28,7 @@ class SystemVariableAssigner
      */
     public function __construct(&...$pdos)
     {
-        $this->pdos = array_filter($pdos);
+        $this->pdos = \array_filter($pdos);
     }
 
     /**
@@ -47,8 +47,7 @@ class SystemVariableAssigner
     /**
      * Configure PDO using query and parameters temporarily enabling PDO::ATTR_EMULATE_PREPARES.
      *
-     * @param  string $query
-     * @param  array  $values
+     * @param  array $values
      * @return $this
      */
     protected function withEmulatedStatement(string $query, array $values = [])
@@ -67,10 +66,7 @@ class SystemVariableAssigner
     }
 
     /**
-     * @param  \PDO   $pdo
-     * @param  string $query
-     * @param  array  $values
-     * @return \PDO
+     * @param array $values
      */
     protected static function withEmulatedStatementFor(PDO $pdo, string $query, array $values): PDO
     {
@@ -83,14 +79,11 @@ class SystemVariableAssigner
     }
 
     /**
-     * @param  \PDO   $pdo
-     * @param  string $query
-     * @param  array  $values
-     * @return \PDO
+     * @param array $values
      */
     protected static function withStatementFor(PDO $pdo, string $query, array $values): PDO
     {
-        $expressions = array_map([Value::class, 'wrap'], $values);
+        $expressions = \array_map([Value::class, 'wrap'], $values);
         $original = static::selectOriginalVariablesForReplacer($pdo, $expressions);
         $statement = $pdo->prepare($query);
 
@@ -104,13 +97,12 @@ class SystemVariableAssigner
     }
 
     /**
-     * @param  \PDO                                                          $pdo
      * @param  \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface[] $expressions
      * @return \Mpyw\LaravelMySqlSystemVariableManager\ValueInterface[]
      */
     protected static function selectOriginalVariablesForReplacer(PDO $pdo, array $expressions): array
     {
-        $replacers = array_filter($expressions, function ($value) {
+        $replacers = \array_filter($expressions, function ($value) {
             return $value instanceof IntegerReplacerInterface
                 || $value instanceof BooleanReplacerInterface
                 || $value instanceof FloatReplacerInterface
@@ -120,12 +112,6 @@ class SystemVariableAssigner
         return SystemVariableSelector::selectOriginalVariables($pdo, $replacers);
     }
 
-    /**
-     * @param \PDOStatement                                               $statement
-     * @param int                                                         $parameter
-     * @param \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface $expression
-     * @param null|\Mpyw\LaravelMySqlSystemVariableManager\ValueInterface $original
-     */
     protected static function bindValue(PDOStatement $statement, int $parameter, ExpressionInterface $expression, ?ValueInterface $original = null): void
     {
         if ($expression instanceof ValueInterface) {
@@ -133,13 +119,23 @@ class SystemVariableAssigner
             return;
         }
 
-        if (($expression instanceof IntegerReplacerInterface
-            || $expression instanceof BooleanReplacerInterface
-            || $expression instanceof FloatReplacerInterface
-            || $expression instanceof StringReplacerInterface
-            ) && $original) {
-            $statement->bindValue($parameter, $expression->replace($original->getValue()), $expression->getParamType());
-            return;
+        if ($original) {
+            if ($expression instanceof IntegerReplacerInterface) {
+                $statement->bindValue($parameter, $expression->replace((int)$original->getValue()), $expression->getParamType());
+                return;
+            }
+            if ($expression instanceof BooleanReplacerInterface) {
+                $statement->bindValue($parameter, $expression->replace((bool)$original->getValue()), $expression->getParamType());
+                return;
+            }
+            if ($expression instanceof FloatReplacerInterface) {
+                $statement->bindValue($parameter, $expression->replace((float)$original->getValue()), $expression->getParamType());
+                return;
+            }
+            if ($expression instanceof StringReplacerInterface) {
+                $statement->bindValue($parameter, $expression->replace((string)$original->getValue()), $expression->getParamType());
+                return;
+            }
         }
 
         // @codeCoverageIgnoreStart

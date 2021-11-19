@@ -11,13 +11,14 @@ class CallbackStringReplacer implements StringReplacerInterface
 
     /**
      * @var callable
+     * @phpstan-var callable(string): string
      */
     protected $callback;
 
     /**
      * ClosureStringReplacer constructor.
      *
-     * @param callable $callback
+     * @phpstan-param callable(string): string $callback
      */
     public function __construct(callable $callback)
     {
@@ -26,9 +27,6 @@ class CallbackStringReplacer implements StringReplacerInterface
 
     /**
      * Replace string variable value.
-     *
-     * @param  string $value
-     * @return string
      */
     public function replace(string $value): string
     {
@@ -38,7 +36,7 @@ class CallbackStringReplacer implements StringReplacerInterface
     /**
      * Return type.
      *
-     * @return string
+     * @phpstan-return ExpressionInterface::TYPE_STRING
      */
     public function getType(): string
     {
