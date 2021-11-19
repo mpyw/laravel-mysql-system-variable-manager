@@ -8,9 +8,6 @@ interface FloatReplacerInterface extends ExpressionInterface
 {
     /**
      * Replace float variable value.
-     *
-     * @param  float $value
-     * @return float
      */
     public function replace(float $value): float;
 }

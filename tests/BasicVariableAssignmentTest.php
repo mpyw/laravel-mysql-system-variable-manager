@@ -11,8 +11,6 @@ class BasicVariableAssignmentTest extends TestCase
 {
     /**
      * @test
-     * @param string $variableName
-     * @param bool   $emulated
      * @param mixed  $expectedOriginal
      * @param mixed  $newValue
      * @param mixed  $expectedChanged
@@ -29,8 +27,6 @@ class BasicVariableAssignmentTest extends TestCase
 
     /**
      * @test
-     * @param string $variableName
-     * @param bool   $emulated
      * @param mixed  $expectedOriginal
      * @param mixed  $newValue
      * @param mixed  $expectedChanged

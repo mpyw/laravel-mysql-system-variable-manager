@@ -11,13 +11,14 @@ class CallbackBooleanReplacer implements BooleanReplacerInterface
 
     /**
      * @var callable
+     * @phpstan-var callable(bool): bool
      */
     protected $callback;
 
     /**
      * ClosureBooleanReplacer constructor.
      *
-     * @param callable $callback
+     * @phpstan-param callable(bool): bool $callback
      */
     public function __construct(callable $callback)
     {
@@ -26,9 +27,6 @@ class CallbackBooleanReplacer implements BooleanReplacerInterface
 
     /**
      * Replace boolean variable value.
-     *
-     * @param  bool $value
-     * @return bool
      */
     public function replace(bool $value): bool
     {
@@ -38,7 +36,7 @@ class CallbackBooleanReplacer implements BooleanReplacerInterface
     /**
      * Return type.
      *
-     * @return string
+     * @phpstan-return ExpressionInterface::TYPE_BOOLEAN
      */
     public function getType(): string
     {

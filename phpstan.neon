@@ -1,0 +1,10 @@
+includes:
+    - ./extension.neon
+
+parameters:
+    level: 9
+    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - message: '#Cannot access property \$value on mixed#'
+          path: tests

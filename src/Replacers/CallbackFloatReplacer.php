@@ -11,13 +11,14 @@ class CallbackFloatReplacer implements FloatReplacerInterface
 
     /**
      * @var callable
+     * @phpstan-var callable(float): float
      */
     protected $callback;
 
     /**
      * ClosureFloatReplacer constructor.
      *
-     * @param callable $callback
+     * @phpstan-param callable(float): float $callback
      */
     public function __construct(callable $callback)
     {
@@ -26,9 +27,6 @@ class CallbackFloatReplacer implements FloatReplacerInterface
 
     /**
      * Replace float variable value.
-     *
-     * @param  float $value
-     * @return float
      */
     public function replace(float $value): float
     {
@@ -38,7 +36,7 @@ class CallbackFloatReplacer implements FloatReplacerInterface
     /**
      * Return type.
      *
-     * @return string
+     * @phpstan-return ExpressionInterface::TYPE_FLOAT
      */
     public function getType(): string
     {

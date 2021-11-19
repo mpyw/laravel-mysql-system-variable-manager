@@ -10,7 +10,7 @@ class SystemVariableTemporaryAssigner
     /**
      * @var \Closure[]|\PDO[]
      */
-    protected $pdos;
+    protected array $pdos;
 
     /**
      * SystemVariableAssigner constructor.
@@ -19,15 +19,14 @@ class SystemVariableTemporaryAssigner
      */
     public function __construct(&...$pdos)
     {
-        $this->pdos = array_filter($pdos);
+        $this->pdos = \array_filter($pdos);
     }
 
     /**
      * Temporarily set MySQL system variables for PDO.
      *
-     * @param  array    $using
-     * @param  callable $callback
-     * @param  array    $args
+     * @param  array $using
+     * @param  mixed ...$args
      * @return $this
      */
     public function using(array $using, callable $callback, ...$args)

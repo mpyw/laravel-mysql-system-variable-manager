@@ -17,8 +17,7 @@ class Replacer
     /**
      * Create new int replacer for MySQL system variable.
      *
-     * @param  callable                                                                   $callback
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\Replacers\IntegerReplacerInterface
+     * @phpstan-param callable(int): int $callback
      */
     public static function int(callable $callback): IntegerReplacerInterface
     {
@@ -28,8 +27,7 @@ class Replacer
     /**
      * Create new bool replacer for MySQL system variable.
      *
-     * @param  callable                                                                   $callback
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\Replacers\BooleanReplacerInterface
+     * @phpstan-param callable(bool): bool $callback
      */
     public static function bool(callable $callback): BooleanReplacerInterface
     {
@@ -39,8 +37,7 @@ class Replacer
     /**
      * Create new float replacer for MySQL system variable.
      *
-     * @param  callable                                                                 $callback
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\Replacers\FloatReplacerInterface
+     * @phpstan-param callable(float): float $callback
      */
     public static function float(callable $callback): FloatReplacerInterface
     {
@@ -50,8 +47,7 @@ class Replacer
     /**
      * Create new string replacer for MySQL system variable.
      *
-     * @param  callable                                                                  $callback
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\Replacers\StringReplacerInterface
+     * @phpstan-param callable(string): string $callback
      */
     public static function str(callable $callback): StringReplacerInterface
     {
@@ -60,12 +56,8 @@ class Replacer
 
     /**
      * Create new typed replacer for MySQL system variable.
-     *
-     * @param  string                                                      $type
-     * @param  callable                                                    $callback
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface
      */
-    public static function as(string $type, $callback): ExpressionInterface
+    public static function as(string $type, callable $callback): ExpressionInterface
     {
         switch ($type) {
             case ExpressionInterface::TYPE_INTEGER:

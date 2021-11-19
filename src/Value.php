@@ -5,25 +5,22 @@ namespace Mpyw\LaravelMySqlSystemVariableManager;
 use Closure;
 use InvalidArgumentException;
 use ReflectionFunction;
+use ReflectionNamedType;
 
 class Value implements ValueInterface
 {
     use ExpressionTrait;
 
     /**
-     * @var mixed
+     * @var bool|float|int|string
      */
     protected $value;
 
-    /**
-     * @var string
-     */
-    protected $type;
+    protected string $type;
 
     /**
      * Create new int value for MySQL system variable.
      *
-     * @param  int    $value
      * @return static
      */
     public static function int(int $value)
@@ -34,7 +31,6 @@ class Value implements ValueInterface
     /**
      * Create new bool value for MySQL system variable.
      *
-     * @param  bool   $value
      * @return static
      */
     public static function bool(bool $value)
@@ -45,7 +41,6 @@ class Value implements ValueInterface
     /**
      * Create new float value for MySQL system variable.
      *
-     * @param  float  $value
      * @return static
      */
     public static function float(float $value)
@@ -56,7 +51,6 @@ class Value implements ValueInterface
     /**
      * Create new string value for MySQL system variable.
      *
-     * @param  string $value
      * @return static
      */
     public static function str(string $value)
@@ -67,21 +61,19 @@ class Value implements ValueInterface
     /**
      * Create new typed value for MySQL system variable.
      *
-     * @param  string                                                      $type
-     * @param  bool|float|int|string                                       $value
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface
+     * @param bool|float|int|string $value
      */
     public static function as(string $type, $value): ExpressionInterface
     {
         switch ($type) {
             case static::TYPE_INTEGER:
-                return static::int($value);
+                return static::int((int)$value);
             case static::TYPE_BOOLEAN:
-                return static::bool($value);
+                return static::bool((bool)$value);
             case static::TYPE_FLOAT:
-                return static::float($value);
+                return static::float((float)$value);
             case static::TYPE_STRING:
-                return static::str($value);
+                return static::str((string)$value);
             default:
                 throw new InvalidArgumentException('The type must be one of "integer", "boolean", "double" or "string".');
         }
@@ -92,8 +84,7 @@ class Value implements ValueInterface
     /**
      * Automatically wrap a non-null value.
      *
-     * @param  mixed                                                       $value
-     * @return \Mpyw\LaravelMySqlSystemVariableManager\ExpressionInterface
+     * @param mixed $value
      */
     public static function wrap($value): ExpressionInterface
     {
@@ -101,16 +92,17 @@ class Value implements ValueInterface
             return $value;
         }
 
-        if (is_scalar($value)) {
+        if (\is_scalar($value)) {
             return static::as(gettype($value), $value);
         }
 
         if ($value instanceof Closure) {
             /* @noinspection PhpUnhandledExceptionInspection */
             $reflector = new ReflectionFunction($value);
-            if ($reflector->hasReturnType()) {
-                $returnType = $reflector->getReturnType();
-                if (!$returnType->allowsNull() && $type = ExpressionInterface::GRAMMATICAL_TYPE_TO_STRING_TYPE[$returnType->getName()] ?? null) {
+            $returnType = $reflector->getReturnType();
+            if ($returnType instanceof ReflectionNamedType && !$returnType->allowsNull()) {
+                $type = ExpressionInterface::GRAMMATICAL_TYPE_TO_STRING_TYPE[$returnType->getName()] ?? null;
+                if ($type) {
                     return Replacer::as($type, $value);
                 }
             }
@@ -122,10 +114,9 @@ class Value implements ValueInterface
     /**
      * Value constructor.
      *
-     * @param mixed  $value
-     * @param string $type
+     * @param bool|float|int|string $value
      */
-    protected function __construct($value, string $type)
+    final protected function __construct($value, string $type)
     {
         $this->value = $value;
         $this->type = $type;
