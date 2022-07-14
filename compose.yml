@@ -1,22 +1,20 @@
-version: '3'
+version: 'Compose-Spec'
 
 services:
 
   php:
-    image: circleci/php:7.4
+    image: joseluisq/php-fpm:8.1
     volumes:
       - .:/code:cached
-    command:
-      sh -c '
-        sudo docker-php-ext-install pdo_mysql;
-        cd /code;
-        tail -F /dev/null;
-      '
+    working_dir: /code
+    entrypoint: ['tail', '-f', '/dev/null']
+    command: []
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     environment:
       MYSQL_DATABASE: testing
       MYSQL_USER: testing
       MYSQL_PASSWORD: testing
       MYSQL_ROOT_PASSWORD: testing
+ 
