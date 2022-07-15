@@ -7,7 +7,7 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 | Package | Version | Mandatory |
 |:---|:---|:---:|
 | PHP | <code>^7.4 &#124;&#124; ^8.0</code> | ✅ |
-| Laravel | <code>^6.0 &#124;&#124; ^7.0 &#124;&#124; ^8.0 &#124;&#124; ^9.0</code> | ✅ |
+| Laravel | <code>^6.0 &#124;&#124; ^7.0 &#124;&#124; ^8.0 &#124;&#124; ^9.0 &#124;&#124; ^10.0</code> | ✅ |
 | PHPStan | <code>&gt;=1.1</code> | |
 
 ## Installing
