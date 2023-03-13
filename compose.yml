@@ -3,7 +3,7 @@ version: 'Compose-Spec'
 services:
 
   php:
-    image: joseluisq/php-fpm:8.1
+    image: joseluisq/php-fpm:8.2
     volumes:
       - .:/code:cached
     working_dir: /code

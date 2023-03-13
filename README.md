@@ -4,11 +4,11 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 
 ## Requirements
 
-| Package | Version | Mandatory |
-|:---|:---|:---:|
-| PHP | <code>^7.4 &#124;&#124; ^8.0</code> | ✅ |
-| Laravel | <code>^6.0 &#124;&#124; ^7.0 &#124;&#124; ^8.0 &#124;&#124; ^9.0 &#124;&#124; ^10.0</code> | ✅ |
-| PHPStan | <code>&gt;=1.1</code> | |
+| Package | Version                                                 | Mandatory |
+|:--------|:--------------------------------------------------------|:---------:|
+| PHP     | <code>^8.0</code>                                       |     ✅     |
+| Laravel | <code>^9.0 &#124;&#124; ^10.0 &#124;&#124; ^11.0</code> |     ✅     |
+| PHPStan | <code>&gt;=1.1</code>                                   |           |
 
 ## Installing
 
@@ -52,7 +52,7 @@ DB::setSystemVariable('long_query_time', 10.0);
 DB::setSystemVariable('long_query_time', 10.0, false);
 
 // Assign multiple variables
-DB::setSystemVariables(['long_query_time' => 10.0, 'tx_isolation' => 'read-committed']);
+DB::setSystemVariables(['long_query_time' => 10.0, 'transaction_isolation' => 'read-committed']);
 
 // Assign a variable on a different connection
 DB::connection('other_mysql_connection')->setSystemVariable('long_query_time', 10.0);
@@ -63,7 +63,7 @@ DB::usingSystemVariable('long_query_time', 10.0, function () {
 });
 
 // Run callback temporarily assigning multiple variables
-DB::usingSystemVariables(['long_query_time' => 10.0, 'tx_isolation' => 'read-committed'], function () {
+DB::usingSystemVariables(['long_query_time' => 10.0, 'transaction_isolation' => 'read-committed'], function () {
     /* ... */
 });
 
