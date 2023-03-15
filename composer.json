@@ -24,8 +24,8 @@
     "require": {
         "php": "^8.0",
         "ext-pdo": "*",
-        "illuminate/support": "^9.0 || ^10.0",
-        "illuminate/database": "^9.0 || ^10.0",
+        "illuminate/support": "^9.0 || ^10.0 || ^11.0",
+        "illuminate/database": "^9.0 || ^10.0 || ^11.0",
         "mpyw/unclosure": "^3.0",
         "mpyw/laravel-pdo-emulation-control": "^2.0.2"
     },
