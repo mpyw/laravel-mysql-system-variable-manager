@@ -18,7 +18,8 @@ composer require mpyw/laravel-mysql-system-variable-manager
 
 ## Basic Usage
 
-The default implementation is provided by `MySqlConnectionServiceProvider`, however, **package discovery is not available**.
+> [!IMPORTANT]
+> The default implementation is provided by `MySqlConnectionServiceProvider`, however, **package discovery is not available**.
 Be careful that you MUST register it in **`config/app.php`** by yourself.
 
 ```php
@@ -84,13 +85,14 @@ DB::usingSystemVariables(
 );
 ```
 
-**WARNING:**  
-Don't use `DB::disconnect()` directly or auto-recovery won't be fired.  
-Use **`DB::connection()->disconnect()`** instead.
+> [!CAUTION]
+> Don't use `DB::disconnect()` directly or auto-recovery won't be fired.  
+> Use **`DB::connection()->disconnect()`** instead.
 
 ## Advanced Usage
 
-You can extend `MySqlConnection` with `ManagesSystemVariables` trait by yourself.
+> [!TIP]
+> You can extend `MySqlConnection` with `ManagesSystemVariables` trait by yourself.
 
 ```php
 <?php
