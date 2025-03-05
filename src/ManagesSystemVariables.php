@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 /**
@@ -25,12 +27,12 @@ trait ManagesSystemVariables
      * Set MySQL system variables for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
-     * @param  array  $values
-     * @param  bool   $memoizeForReconnect
+     * @param  array<string, mixed> $values
      * @return $this
      */
     public function setSystemVariables(array $values, bool $memoizeForReconnect = true)
     {
+        // @phpstan-ignore-next-line assign.propertyType
         (new SystemVariableMemoizedAssigner($this->reconnector, $this->readPdo, $this->pdo))
             ->assign($values, $memoizeForReconnect);
 
@@ -54,12 +56,12 @@ trait ManagesSystemVariables
      * Run callback temporarily setting MySQL system variables for both read and write PDOs.
      * It is lazily executed for unresolved PDO instance.
      *
-     * @param  array $values
-     * @param  mixed ...$args
+     * @param  array<string, mixed> $values
      * @return mixed
      */
-    public function usingSystemVariables(array $values, callable $callback, ...$args)
+    public function usingSystemVariables(array $values, callable $callback, mixed ...$args)
     {
+        // @phpstan-ignore-next-line assign.propertyType
         return (new SystemVariableTemporaryAssigner($this->readPdo, $this->pdo))
             ->using($values, $callback, ...$args);
     }

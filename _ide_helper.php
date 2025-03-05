@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Illuminate\Database
 {
+    use Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables;
+
     if (false) {
         interface ConnectionInterface
         {
@@ -11,7 +15,7 @@ namespace Illuminate\Database
              *
              * @param  mixed $value
              * @return $this
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
             public function setSystemVariable(string $key, $value, bool $memoizeForReconnect = true);
 
@@ -19,10 +23,8 @@ namespace Illuminate\Database
              * Set MySQL system variables for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  array  $values
-             * @param  bool   $memoizeForReconnect
              * @return $this
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
             public function setSystemVariables(array $values, bool $memoizeForReconnect = true);
 
@@ -33,7 +35,7 @@ namespace Illuminate\Database
              * @param  mixed $value
              * @param  mixed ...$args
              * @return mixed
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
             public function usingSystemVariable(string $key, $value, callable $callback, ...$args);
 
@@ -41,10 +43,9 @@ namespace Illuminate\Database
              * Run callback temporarily setting MySQL system variables for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  array $values
              * @param  mixed ...$args
              * @return mixed
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
             public function usingSystemVariables(array $values, callable $callback, ...$args);
         }
@@ -57,24 +58,18 @@ namespace Illuminate\Database
              *
              * @param  mixed $value
              * @return $this
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
-            public function setSystemVariable(string $key, $value, bool $memoizeForReconnect = true)
-            {
-            }
+            public function setSystemVariable(string $key, $value, bool $memoizeForReconnect = true) {}
 
             /**
              * Set MySQL system variables for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  array  $values
-             * @param  bool   $memoizeForReconnect
              * @return $this
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
-            public function setSystemVariables(array $values, bool $memoizeForReconnect = true)
-            {
-            }
+            public function setSystemVariables(array $values, bool $memoizeForReconnect = true) {}
 
             /**
              * Run callback temporarily setting MySQL system variable for both read and write PDOs.
@@ -83,30 +78,28 @@ namespace Illuminate\Database
              * @param  mixed $value
              * @param  mixed ...$args
              * @return mixed
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
-            public function usingSystemVariable(string $key, $value, callable $callback, ...$args)
-            {
-            }
+            public function usingSystemVariable(string $key, $value, callable $callback, ...$args) {}
 
             /**
              * Run callback temporarily setting MySQL system variables for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  array $values
              * @param  mixed ...$args
              * @return mixed
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
-            public function usingSystemVariables(array $values, callable $callback, ...$args)
-            {
-            }
+            public function usingSystemVariables(array $values, callable $callback, ...$args) {}
         }
     }
 }
 
 namespace Illuminate\Support\Facades
 {
+    use Illuminate\Database\Connection;
+    use Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables;
+
     if (false) {
         class DB extends Facade
         {
@@ -114,26 +107,20 @@ namespace Illuminate\Support\Facades
              * Set MySQL system variable for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  mixed $value
-             * @return \Illuminate\Database\Connection
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @param  mixed      $value
+             * @return Connection
+             * @see ManagesSystemVariables
              */
-            public static function setSystemVariable(string $key, $value, bool $memoizeForReconnect = true)
-            {
-            }
+            public static function setSystemVariable(string $key, $value, bool $memoizeForReconnect = true) {}
 
             /**
              * Set MySQL system variables for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  array  $values
-             * @param  bool   $memoizeForReconnect
-             * @return \Illuminate\Database\Connection
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @return Connection
+             * @see ManagesSystemVariables
              */
-            public static function setSystemVariables(array $values, bool $memoizeForReconnect = true)
-            {
-            }
+            public static function setSystemVariables(array $values, bool $memoizeForReconnect = true) {}
 
             /**
              * Run callback temporarily setting MySQL system variable for both read and write PDOs.
@@ -142,24 +129,19 @@ namespace Illuminate\Support\Facades
              * @param  mixed $value
              * @param  mixed ...$args
              * @return mixed
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
-            public static function usingSystemVariable(string $key, $value, callable $callback, ...$args)
-            {
-            }
+            public static function usingSystemVariable(string $key, $value, callable $callback, ...$args) {}
 
             /**
              * Run callback temporarily setting MySQL system variables for both read and write PDOs.
              * It is lazily executed for unresolved PDO instance.
              *
-             * @param  array $values
              * @param  mixed ...$args
              * @return mixed
-             * @see \Mpyw\LaravelMySqlSystemVariableManager\ManagesSystemVariables
+             * @see ManagesSystemVariables
              */
-            public static function usingSystemVariables(array $values, callable $callback, ...$args)
-            {
-            }
+            public static function usingSystemVariables(array $values, callable $callback, ...$args) {}
         }
     }
 }

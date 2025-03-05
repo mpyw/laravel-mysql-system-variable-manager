@@ -22,24 +22,27 @@
         }
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-pdo": "*",
-        "illuminate/support": "^9.0 || ^10.0 || ^11.0",
-        "illuminate/database": "^9.0 || ^10.0 || ^11.0",
-        "mpyw/unclosure": "^3.0",
-        "mpyw/laravel-pdo-emulation-control": "^2.0.2"
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/database": "^11.0 || ^12.0 || ^13.0",
+        "mpyw/unclosure": "^3.1",
+        "mpyw/laravel-pdo-emulation-control": "^2.1"
     },
     "require-dev": {
         "orchestra/testbench": "*",
-        "orchestra/testbench-core": ">=7.0",
-        "phpunit/phpunit": ">=9.5",
-        "phpstan/phpstan": ">=1.1",
-        "phpstan/extension-installer": ">=1.1",
-        "nunomaduro/larastan": ">=1.0"
+        "orchestra/testbench-core": ">=9.0",
+        "phpunit/phpunit": ">=11.0",
+        "phpstan/phpstan": ">=2.0",
+        "phpstan/extension-installer": ">=1.4",
+        "nunomaduro/larastan": ">=3.1",
+        "friendsofphp/php-cs-fixer": "^3.70"
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "phpstan": "vendor/bin/phpstan analyse src tests phpstan"
+        "phpstan": "vendor/bin/phpstan analyse src tests phpstan",
+        "cs": "vendor/bin/php-cs-fixer fix --dry-run",
+        "cs:fix": "vendor/bin/php-cs-fixer fix"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

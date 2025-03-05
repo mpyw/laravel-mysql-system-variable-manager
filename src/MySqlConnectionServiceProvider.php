@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 use Illuminate\Database\Connection;
@@ -12,7 +14,7 @@ class MySqlConnectionServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        Connection::resolverFor('mysql', function (...$parameters) {
+        Connection::resolverFor('mysql', static function (...$parameters) {
             return new MySqlConnection(...$parameters);
         });
     }

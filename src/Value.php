@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 use Closure;
 use InvalidArgumentException;
 use ReflectionFunction;
 use ReflectionNamedType;
+
+use function is_scalar;
 
 class Value implements ValueInterface
 {
@@ -68,12 +72,16 @@ class Value implements ValueInterface
         switch ($type) {
             case static::TYPE_INTEGER:
                 return static::int((int)$value);
+
             case static::TYPE_BOOLEAN:
                 return static::bool((bool)$value);
+
             case static::TYPE_FLOAT:
                 return static::float((float)$value);
+
             case static::TYPE_STRING:
                 return static::str((string)$value);
+
             default:
                 throw new InvalidArgumentException('The type must be one of "integer", "boolean", "double" or "string".');
         }
@@ -92,12 +100,12 @@ class Value implements ValueInterface
             return $value;
         }
 
-        if (\is_scalar($value)) {
+        if (is_scalar($value)) {
             return static::as(gettype($value), $value);
         }
 
         if ($value instanceof Closure) {
-            /* @noinspection PhpUnhandledExceptionInspection */
+            /** @noinspection PhpUnhandledExceptionInspection */
             $reflector = new ReflectionFunction($value);
             $returnType = $reflector->getReturnType();
             if ($returnType instanceof ReflectionNamedType && !$returnType->allowsNull()) {
@@ -134,11 +142,10 @@ class Value implements ValueInterface
 
     /**
      * Return type.
-     *
-     * @return string
      */
     public function getType(): string
     {
+        // @phpstan-ignore return.type
         return $this->type;
     }
 }

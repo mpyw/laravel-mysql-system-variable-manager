@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
 use Illuminate\Support\Facades\DB;
@@ -9,7 +11,7 @@ class ReconnectionTest extends TestCase
 {
     public function testOnlyMemoizedVariablesAreReassigned(): void
     {
-        $this->onNativeConnection(function (MySqlConnection $db) {
+        $this->onNativeConnection(function (MySqlConnection $db): void {
             $this->assertSame('REPEATABLE-READ', $db->selectOne('select @@transaction_isolation as value')->value);
             $this->assertSame(10.0, $db->selectOne('select @@long_query_time as value')->value);
 
@@ -23,9 +25,9 @@ class ReconnectionTest extends TestCase
             $this->assertSame(10.0, $db->selectOne('select @@long_query_time as value')->value);
         });
 
-        $this->onEmulatedConnection(function (MySqlConnection $db) {
+        $this->onEmulatedConnection(function (MySqlConnection $db): void {
             $this->assertSame('REPEATABLE-READ', $db->selectOne('select @@transaction_isolation as value')->value);
-            $this->assertSame($this->v81('10.000000', 10.0), $db->selectOne('select @@long_query_time as value')->value);
+            $this->assertSame(10.0, $db->selectOne('select @@long_query_time as value')->value);
 
             $db
                 ->setSystemVariable('transaction_isolation', 'read-committed')
@@ -34,7 +36,7 @@ class ReconnectionTest extends TestCase
             $db->reconnect();
 
             $this->assertSame('READ-COMMITTED', $db->selectOne('select @@transaction_isolation as value')->value);
-            $this->assertSame($this->v81('10.000000', 10.0), $db->selectOne('select @@long_query_time as value')->value);
+            $this->assertSame(10.0, $db->selectOne('select @@long_query_time as value')->value);
         });
     }
 

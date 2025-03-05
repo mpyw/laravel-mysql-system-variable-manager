@@ -24,18 +24,20 @@ jobs:
 
     strategy:
       matrix:
-        php: ['8.0', 8.1, 8.2]
-        lib:
-          - { laravel: ^11.0 }
-          - { laravel: ^10.0 }
-          - { laravel: ^9.0 }
+        php: [8.2, 8.3, 8.4]
+        laravel: [^11.0, ^12.0, ^13.0.x-dev]
         exclude:
-          - { php: 8.0, lib: { laravel: ^10.0 } }
-          - { php: 8.0, lib: { laravel: ^11.0 } }
-          - { php: 8.1, lib: { laravel: ^11.0 } }
+          - php: 8.2
+            laravel: ^13.0.x-dev
         include:
-          - { lib: { laravel: ^9.0 }, phpstan: 1 }
-          - { lib: { laravel: ^10.0 }, phpstan: 1 }
+          - php: 8.2
+            php-cs-fixer: 1
+          - php: 8.3
+            php-cs-fixer: 1
+          - laravel: ^11.0
+            larastan: 1
+          - laravel: ^12.0
+            larastan: 1
 
     steps:
       - uses: actions/checkout@v3
@@ -46,27 +48,39 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: xdebug
 
-      - name: Remove impossible dependencies
-        if: ${{ matrix.phpstan != 1 }}
+      - name: Remove impossible dependencies (nunomaduro/larastan)
+        if: ${{ matrix.larastan != 1 }}
         run: composer remove nunomaduro/larastan --dev --no-update
+
+      - name: Remove impossible dependencies (friendsofphp/php-cs-fixer)
+        if: ${{ matrix.php-cs-fixer != 1 }}
+        run: composer remove friendsofphp/php-cs-fixer --dev --no-update
 
       - name: Adjust Package Versions
         run: |
-          composer require "laravel/framework:${{ matrix.lib.laravel }}" --dev
+          composer require "laravel/framework:${{ matrix.laravel }}" --dev --no-update
+          composer update
+
+      - name: Prepare Coverage Directory
+        run: mkdir -p build/logs
+
+      - name: PHP-CS-Fixer
+        if: ${{ matrix.php-cs-fixer == 1 }}
+        run: composer cs
 
       - name: PHPStan
-        if: ${{ matrix.phpstan == 1 }}
+        if: ${{ matrix.larastan == 1 }}
         run: composer phpstan
 
-      - run: mkdir -p build/logs
-      - run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+      - name: Test
+        run: composer test -- --testdox --coverage-clover build/logs/clover.xml
 
       - name: Upload Coverage
         uses: nick-invision/retry@v2
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: 'true'
-          COVERALLS_FLAG_NAME: 'laravel:${{ matrix.lib.laravel }}'
+          COVERALLS_FLAG_NAME: "laravel:${{ matrix.laravel }} php:${{ matrix.php }}"
         with:
           timeout_minutes: 1
           max_attempts: 3
