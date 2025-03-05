@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 use Illuminate\Database\ConnectionInterface;
 use LogicException;
+
+use function array_replace;
+use function is_callable;
+use function method_exists;
 
 /**
  * Class SystemVariableAwareReconnector
@@ -11,7 +17,7 @@ use LogicException;
 class SystemVariableAwareReconnector
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $memoizedSystemVariables = [];
 
@@ -29,12 +35,13 @@ class SystemVariableAwareReconnector
     }
 
     /**
-     * @param  array $values
+     * @param  array<string, mixed> $values
      * @return $this
      */
     public function memoizeSystemVariables(array $values)
     {
-        $this->memoizedSystemVariables = \array_replace($this->memoizedSystemVariables, $values);
+        $this->memoizedSystemVariables = array_replace($this->memoizedSystemVariables, $values);
+
         return $this;
     }
 
@@ -43,9 +50,11 @@ class SystemVariableAwareReconnector
      */
     public function __invoke(ConnectionInterface $connection)
     {
-        if (\is_callable($this->reconnector) && \method_exists($connection, 'setSystemVariables')) {
+        // @phpstan-ignore-next-line function.alreadyNarrowedType
+        if (is_callable($this->reconnector) && method_exists($connection, 'setSystemVariables')) {
             $result = ($this->reconnector)($connection);
             $connection->setSystemVariables($this->memoizedSystemVariables, true);
+
             return $result;
         }
 

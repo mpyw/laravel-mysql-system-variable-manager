@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager\PHPStan;
 
 use Illuminate\Database\QueryException;
@@ -13,6 +15,8 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
+
+use function strlen;
 
 final class SystemVariablesMethod implements MethodReflection
 {
@@ -60,6 +64,9 @@ final class SystemVariablesMethod implements MethodReflection
         return $this;
     }
 
+    /**
+     * @return list<FunctionVariant>
+     */
     public function getVariants(): array
     {
         return $this->getName()[0] === 's'
@@ -67,12 +74,15 @@ final class SystemVariablesMethod implements MethodReflection
             : $this->getUsingVariants();
     }
 
+    /**
+     * @return list<FunctionVariant>
+     */
     private function getSetVariants(): array
     {
         return [new FunctionVariant(
             TemplateTypeMap::createEmpty(),
             null,
-            $this->getName()[\strlen($this->getName()) - 1] === 's'
+            $this->getName()[strlen($this->getName()) - 1] === 's'
                 ? [
                     new ValuesParameter(),
                     new MemoizeParameter(),
@@ -87,9 +97,12 @@ final class SystemVariablesMethod implements MethodReflection
         )];
     }
 
+    /**
+     * @return list<FunctionVariant>
+     */
     private function getUsingVariants(): array
     {
-        $baseArgs = $this->getName()[\strlen($this->getName()) - 1] === 's'
+        $baseArgs = $this->getName()[strlen($this->getName()) - 1] === 's'
             ? [
                 new ValuesParameter(),
             ]
@@ -142,7 +155,7 @@ final class SystemVariablesMethod implements MethodReflection
         return TrinaryLogic::createNo();
     }
 
-    public function getThrowType(): ?Type
+    public function getThrowType(): Type
     {
         return new ObjectType(QueryException::class);
     }

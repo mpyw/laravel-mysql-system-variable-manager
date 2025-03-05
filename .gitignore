@@ -2,5 +2,5 @@ composer.lock
 /.idea/
 /vendor/
 /build/logs/
-.php_cs.cache
+.php-cs-fixer.cache
 /.phpunit.cache/

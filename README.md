@@ -1,4 +1,4 @@
-# Laravel MySQL System Variable Manager<br>[![Build Status](https://github.com/mpyw/laravel-mysql-system-variable-manager/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/mpyw/laravel-mysql-system-variable-manager/actions) [![Coverage Status](https://coveralls.io/repos/github/mpyw/laravel-mysql-system-variable-manager/badge.svg?branch=migrate-ci)](https://coveralls.io/github/mpyw/laravel-mysql-system-variable-manager?branch=migrate-ci) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mpyw/laravel-mysql-system-variable-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mpyw/laravel-mysql-system-variable-manager/?branch=master)
+# Laravel MySQL System Variable Manager<br>[![Build Status](https://github.com/mpyw/laravel-mysql-system-variable-manager/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/mpyw/laravel-mysql-system-variable-manager/actions) [![Coverage Status](https://coveralls.io/repos/github/mpyw/laravel-mysql-system-variable-manager/badge.svg?branch=migrate-ci)](https://coveralls.io/github/mpyw/laravel-mysql-system-variable-manager?branch=migrate-ci)
 
 A tiny extension of `MySqlConnection` that manages **session** system variables
 
@@ -6,9 +6,12 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 
 | Package | Version                               | Mandatory |
 |:--------|:--------------------------------------|:---------:|
-| PHP     | <code>^8.0</code>                     |     ✅     |
-| Laravel | <code>^9.0 &#124;&#124; ^10.0 </code> |     ✅     |
-| PHPStan | <code>&gt;=1.1</code>                 |           |
+| PHP     | <code>^8.2</code>                     |     ✅     |
+| Laravel | <code>^11.0 &#124;&#124; ^12.0</code> |     ✅     |
+| PHPStan | <code>&gt;=2.0</code>                 |           |
+
+> [!NOTE]
+> Older versions have outdated dependency requirements. If you cannot prepare the latest environment, please refer to past releases.
 
 ## Installing
 

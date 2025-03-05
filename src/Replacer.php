@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager;
 
 use InvalidArgumentException;
@@ -62,12 +64,16 @@ class Replacer
         switch ($type) {
             case ExpressionInterface::TYPE_INTEGER:
                 return static::int($callback);
+
             case ExpressionInterface::TYPE_BOOLEAN:
                 return static::bool($callback);
+
             case ExpressionInterface::TYPE_FLOAT:
                 return static::float($callback);
+
             case ExpressionInterface::TYPE_STRING:
                 return static::str($callback);
+
             default:
                 throw new InvalidArgumentException('The return type must be one of "integer", "boolean", "double" or "string".');
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager\PHPStan;
 
 use Illuminate\Database\ConnectionInterface;
@@ -11,6 +13,10 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
+
+use function count;
+use function in_array;
+use function strlen;
 
 final class CallableReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -28,7 +34,7 @@ final class CallableReturnTypeExtension implements DynamicMethodReturnTypeExtens
             'usingSystemVariables',
         ];
 
-        return \in_array($methodReflection->getName(), $methods, true);
+        return in_array($methodReflection->getName(), $methods, true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -37,9 +43,9 @@ final class CallableReturnTypeExtension implements DynamicMethodReturnTypeExtens
             return new ThisType($methodReflection->getDeclaringClass());
         }
 
-        $offset = $methodReflection->getName()[\strlen($methodReflection->getName()) - 1] === 's' ? 1 : 2;
+        $offset = $methodReflection->getName()[strlen($methodReflection->getName()) - 1] === 's' ? 1 : 2;
 
-        if (\count($methodCall->getArgs()) > $offset) {
+        if (count($methodCall->getArgs()) > $offset) {
             $type = $scope->getType($methodCall->getArgs()[$offset]->value);
 
             if ($type instanceof ParametersAcceptor) {

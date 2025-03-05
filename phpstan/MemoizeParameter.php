@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager\PHPStan;
 
 use PHPStan\Reflection\ParameterReflection;
@@ -35,7 +37,7 @@ final class MemoizeParameter implements ParameterReflection
         return false;
     }
 
-    public function getDefaultValue(): ?Type
+    public function getDefaultValue(): Type
     {
         return new ConstantBooleanType(true);
     }

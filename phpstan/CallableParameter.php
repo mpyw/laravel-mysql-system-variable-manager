@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager\PHPStan;
 
 use PHPStan\Reflection\ParameterReflection;
@@ -10,12 +12,12 @@ use PHPStan\Type\Type;
 final class CallableParameter implements ParameterReflection
 {
     /**
-     * @var CallableArgumentParameter[]
+     * @var list<CallableArgumentParameter>
      */
     private array $argumentParameters;
 
     /**
-     * @param CallableArgumentParameter[] $argumentParameters
+     * @param list<CallableArgumentParameter> $argumentParameters
      */
     public function __construct(array $argumentParameters)
     {

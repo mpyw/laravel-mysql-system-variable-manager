@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpyw\LaravelMySqlSystemVariableManager\Tests;
 
 use Closure;
@@ -8,11 +10,12 @@ use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnectionServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use PDO;
 use ReflectionProperty;
+use Illuminate\Foundation\Application;
 
 class TestCase extends BaseTestCase
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      */
     protected function getEnvironmentSetUp($app): void
     {
@@ -41,7 +44,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * @param  \Illuminate\Foundation\Application $app
+     * @param  Application $app
      * @return string[]
      */
     protected function getPackageProviders($app): array
@@ -62,8 +65,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * @param  string        $property
-     * @return \Closure|\PDO
+     * @return Closure|PDO
      */
     protected function getConnectionPropertyValue(?string $connection, string $property)
     {
@@ -85,18 +87,5 @@ class TestCase extends BaseTestCase
     protected function assertPdoNotResolved(?string $connection): void
     {
         $this->assertInstanceOf(Closure::class, $this->getConnectionPropertyValue($connection, 'pdo'));
-    }
-
-    /**
-     * @param mixed $v80
-     * @param mixed $v81
-     * @return mixed
-     */
-    protected function v81($v80, $v81)
-    {
-        // Since PHP 8.1, always get native number regardless of emulation.
-        return version_compare(PHP_VERSION, '8.1', '<')
-            ? $v80
-            : $v81;
     }
 }
