@@ -32,7 +32,7 @@ class SystemVariableAssigner
     /**
      * @phpstan-ignore-next-line parameterByRef.unusedType
      */
-    public function __construct(null|Closure|PDO &...$pdos)
+    public function __construct(Closure|PDO|null &...$pdos)
     {
         $this->pdos = array_filter($pdos);
     }

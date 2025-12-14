@@ -67,7 +67,7 @@ class Value implements ValueInterface
      *
      * @param bool|float|int|string $value
      */
-    public static function as(string $type, $value): ExpressionInterface
+    public static function as(string $type, $value): ValueInterface
     {
         switch ($type) {
             case static::TYPE_INTEGER:
