@@ -8,16 +8,16 @@ use InvalidArgumentException;
 use Mpyw\LaravelMySqlSystemVariableManager\MySqlConnection;
 use Mpyw\LaravelMySqlSystemVariableManager\Replacer;
 use Mpyw\LaravelMySqlSystemVariableManager\Value;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class BasicVariableAssignmentTest extends TestCase
 {
     /**
-     * @test
      * @param mixed $expectedOriginal
      * @param mixed $newValue
      * @param mixed $expectedChanged
-     * @dataProvider provideBasicVariables
      */
+    #[DataProvider('provideBasicVariables')]
     public function testAssignments(string $variableName, bool $emulated, $expectedOriginal, $newValue, $expectedChanged): void
     {
         $this->{$emulated ? 'onEmulatedConnection' : 'onNativeConnection'}(function (MySqlConnection $db) use ($variableName, $expectedOriginal, $newValue, $expectedChanged): void {
@@ -28,12 +28,11 @@ class BasicVariableAssignmentTest extends TestCase
     }
 
     /**
-     * @test
      * @param mixed $expectedOriginal
      * @param mixed $newValue
      * @param mixed $expectedChanged
-     * @dataProvider provideBasicVariables
      */
+    #[DataProvider('provideBasicVariables')]
     public function testTemporaryAssignments(string $variableName, bool $emulated, $expectedOriginal, $newValue, $expectedChanged): void
     {
         $this->{$emulated ? 'onEmulatedConnection' : 'onNativeConnection'}(function (MySqlConnection $db) use ($variableName, $expectedOriginal, $newValue, $expectedChanged): void {
