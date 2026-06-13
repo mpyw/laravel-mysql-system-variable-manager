@@ -4,11 +4,11 @@ A tiny extension of `MySqlConnection` that manages **session** system variables
 
 ## Requirements
 
-| Package | Version                               | Mandatory |
-|:--------|:--------------------------------------|:---------:|
-| PHP     | <code>^8.2</code>                     |     ✅     |
-| Laravel | <code>^11.0 &#124;&#124; ^12.0</code> |     ✅     |
-| PHPStan | <code>&gt;=2.0</code>                 |           |
+| Package | Version                                                             | Mandatory |
+|:--------|:--------------------------------------------------------------------|:---------:|
+| PHP     | <code>^8.2</code>                                                   |     ✅     |
+| Laravel | <code>^11.0 &#124;&#124; ^12.0 &#124;&#124; ^13.0 &#124;&#124; ^14.0</code> |     ✅     |
+| PHPStan | <code>&gt;=2.0</code>                                               |           |
 
 > [!NOTE]
 > Older versions have outdated dependency requirements. If you cannot prepare the latest environment, please refer to past releases.
