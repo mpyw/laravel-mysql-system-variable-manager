@@ -69,22 +69,54 @@ class BasicVariableAssignmentTest extends TestCase
             'assigning wrapped boolean (emulated)' => ['foreign_key_checks', true, 1, Value::bool(false), 0],
             'assigning wrapped string (native)' => ['transaction_isolation', false, 'REPEATABLE-READ', Value::str('read-committed'), 'READ-COMMITTED'],
             'assigning wrapped string (emulated)' => ['transaction_isolation', true, 'REPEATABLE-READ', Value::str('read-committed'), 'READ-COMMITTED'],
-            'replacing explicit float (native)' => ['long_query_time', false, 10.0, Replacer::float(static function ($v) { return $v + 5.0; }), 15.0],
-            'replacing explicit float (emulated)' => ['long_query_time', true, 10.0, Replacer::float(static function ($v) { return $v + 5.0; }), 15.0],
-            'replacing explicit integer (native)' => ['long_query_time', false, 10.0, Replacer::int(static function ($v) { return $v + 5; }), 15.0],
-            'replacing explicit integer (emulated)' => ['long_query_time', true, 10.0, Replacer::int(static function ($v) { return $v + 5; }), 15.0],
-            'replacing explicit boolean (native)' => ['foreign_key_checks', false, 1, Replacer::bool(static function ($v) { return !$v; }), 0],
-            'replacing explicit boolean (emulated)' => ['foreign_key_checks', true, 1, Replacer::bool(static function ($v) { return !$v; }), 0],
-            'replacing explicit string (native)' => ['transaction_isolation', false, 'REPEATABLE-READ', Replacer::str(static function ($v) { return str_ireplace('repeatable-read', 'read-committed', $v); }), 'READ-COMMITTED'],
-            'replacing explicit string (emulated)' => ['transaction_isolation', true, 'REPEATABLE-READ', Replacer::str(static function ($v) { return str_ireplace('repeatable-read', 'read-committed', $v); }), 'READ-COMMITTED'],
-            'replacing implicit float (native)' => ['long_query_time', false, 10.0, static function ($v): float { return $v + 5.0; }, 15.0],
-            'replacing implicit float (emulated)' => ['long_query_time', true, 10.0, static function ($v): float { return $v + 5.0; }, 15.0],
-            'replacing implicit integer (native)' => ['long_query_time', false, 10.0, static function ($v): int { return $v + 5; }, 15.0],
-            'replacing implicit integer (emulated)' => ['long_query_time', true, 10.0, static function ($v): int { return $v + 5; }, 15.0],
-            'replacing implicit boolean (native)' => ['foreign_key_checks', false, 1, static function ($v): bool { return !$v; }, 0],
-            'replacing implicit boolean (emulated)' => ['foreign_key_checks', true, 1, static function ($v): bool { return !$v; }, 0],
-            'replacing implicit string (native)' => ['transaction_isolation', false, 'REPEATABLE-READ', static function ($v): string { return str_ireplace('repeatable-read', 'read-committed', $v); }, 'READ-COMMITTED'],
-            'replacing implicit string (emulated)' => ['transaction_isolation', true, 'REPEATABLE-READ', static function ($v): string { return str_ireplace('repeatable-read', 'read-committed', $v); }, 'READ-COMMITTED'],
+            'replacing explicit float (native)' => ['long_query_time', false, 10.0, Replacer::float(static function ($v) {
+                return $v + 5.0;
+            }), 15.0],
+            'replacing explicit float (emulated)' => ['long_query_time', true, 10.0, Replacer::float(static function ($v) {
+                return $v + 5.0;
+            }), 15.0],
+            'replacing explicit integer (native)' => ['long_query_time', false, 10.0, Replacer::int(static function ($v) {
+                return $v + 5;
+            }), 15.0],
+            'replacing explicit integer (emulated)' => ['long_query_time', true, 10.0, Replacer::int(static function ($v) {
+                return $v + 5;
+            }), 15.0],
+            'replacing explicit boolean (native)' => ['foreign_key_checks', false, 1, Replacer::bool(static function ($v) {
+                return !$v;
+            }), 0],
+            'replacing explicit boolean (emulated)' => ['foreign_key_checks', true, 1, Replacer::bool(static function ($v) {
+                return !$v;
+            }), 0],
+            'replacing explicit string (native)' => ['transaction_isolation', false, 'REPEATABLE-READ', Replacer::str(static function ($v) {
+                return str_ireplace('repeatable-read', 'read-committed', $v);
+            }), 'READ-COMMITTED'],
+            'replacing explicit string (emulated)' => ['transaction_isolation', true, 'REPEATABLE-READ', Replacer::str(static function ($v) {
+                return str_ireplace('repeatable-read', 'read-committed', $v);
+            }), 'READ-COMMITTED'],
+            'replacing implicit float (native)' => ['long_query_time', false, 10.0, static function ($v): float {
+                return $v + 5.0;
+            }, 15.0],
+            'replacing implicit float (emulated)' => ['long_query_time', true, 10.0, static function ($v): float {
+                return $v + 5.0;
+            }, 15.0],
+            'replacing implicit integer (native)' => ['long_query_time', false, 10.0, static function ($v): int {
+                return $v + 5;
+            }, 15.0],
+            'replacing implicit integer (emulated)' => ['long_query_time', true, 10.0, static function ($v): int {
+                return $v + 5;
+            }, 15.0],
+            'replacing implicit boolean (native)' => ['foreign_key_checks', false, 1, static function ($v): bool {
+                return !$v;
+            }, 0],
+            'replacing implicit boolean (emulated)' => ['foreign_key_checks', true, 1, static function ($v): bool {
+                return !$v;
+            }, 0],
+            'replacing implicit string (native)' => ['transaction_isolation', false, 'REPEATABLE-READ', static function ($v): string {
+                return str_ireplace('repeatable-read', 'read-committed', $v);
+            }, 'READ-COMMITTED'],
+            'replacing implicit string (emulated)' => ['transaction_isolation', true, 'REPEATABLE-READ', static function ($v): string {
+                return str_ireplace('repeatable-read', 'read-committed', $v);
+            }, 'READ-COMMITTED'],
         ];
     }
 
